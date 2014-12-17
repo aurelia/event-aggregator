@@ -1,0 +1,18 @@
+{
+  "name": "aurelia-event-aggregator",
+  "version": "0.1.0",
+  "description": "A lightweight pub/sub messaging system for app-wide or per-object loosely coupled events.",
+  "keywords": [
+    "aurelia",
+    "event aggregator",
+    "events",
+    "pub/sub"
+  ],
+  "homepage": "http://aurelia.io",
+  "license": "MIT",
+  "authors": ["Rob Eisenberg <rob@bluespire.com> (http://robeisenberg.com/)"],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/aurelia/event-aggregator"
+  }
+}
