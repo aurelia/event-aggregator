@@ -46,7 +46,7 @@
   },
   "aurelia": {
     "usedBy": [
-      "aurelia-framework"
+      "aurelia-bootstrapper"
     ],
     "documentation": {
       "links": [
