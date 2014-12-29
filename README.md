@@ -10,7 +10,7 @@ This library has **NO** external dependencies.
 
 ## Used By
 
-* [aurelia-framework](https://github.com/aurelia/framework)
+* [aurelia-bootstrapper](https://github.com/aurelia/bootstrapper)
 
 ## Platform Support
 
