@@ -77,3 +77,7 @@ export function includeEventsIn(obj){
 
   return ea;
 }
+
+export function install(aurelia){
+  aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
+}

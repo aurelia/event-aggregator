@@ -2,75 +2,68 @@ define(["exports"], function (exports) {
   "use strict";
 
   exports.includeEventsIn = includeEventsIn;
-  var Handler = (function () {
-    var Handler = function Handler(messageType, callback) {
-      this.messageType = messageType;
-      this.callback = callback;
-    };
+  exports.install = install;
+  var Handler = function Handler(messageType, callback) {
+    this.messageType = messageType;
+    this.callback = callback;
+  };
 
-    Handler.prototype.handle = function (message) {
-      if (message instanceof this.messageType) {
-        this.callback.call(null, message);
-      }
-    };
+  Handler.prototype.handle = function (message) {
+    if (message instanceof this.messageType) {
+      this.callback.call(null, message);
+    }
+  };
 
-    return Handler;
-  })();
+  var EventAggregator = function EventAggregator() {
+    this.eventLookup = {};
+    this.messageHandlers = [];
+  };
 
-  var EventAggregator = (function () {
-    var EventAggregator = function EventAggregator() {
-      this.eventLookup = {};
-      this.messageHandlers = [];
-    };
+  EventAggregator.prototype.publish = function (event, data) {
+    var subscribers, i, handler;
 
-    EventAggregator.prototype.publish = function (event, data) {
-      var subscribers, i, handler;
-
-      if (typeof event === "string") {
-        subscribers = this.eventLookup[event];
-        if (subscribers) {
-          subscribers = subscribers.slice();
-          i = subscribers.length;
-
-          while (i--) {
-            subscribers[i](data, event);
-          }
-        }
-      } else {
-        subscribers = this.messageHandlers.slice();
+    if (typeof event === "string") {
+      subscribers = this.eventLookup[event];
+      if (subscribers) {
+        subscribers = subscribers.slice();
         i = subscribers.length;
 
         while (i--) {
-          subscribers[i].handle(event);
+          subscribers[i](data, event);
         }
       }
-    };
+    } else {
+      subscribers = this.messageHandlers.slice();
+      i = subscribers.length;
 
-    EventAggregator.prototype.subscribe = function (event, callback) {
-      var subscribers, handler;
-
-      if (typeof event === "string") {
-        subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-
-        subscribers.push(callback);
-
-        return function () {
-          subscribers.splice(subscribers.indexOf(callback), 1);
-        };
-      } else {
-        handler = new Handler(event, callback);
-        subscribers = this.messageHandlers;
-
-        subscribers.push(handler);
-
-        return function () {
-          subscribers.splice(subscribers.indexOf(handler), 1);
-        };
+      while (i--) {
+        subscribers[i].handle(event);
       }
-    };
+    }
+  };
 
-    return EventAggregator;
-  })();
+  EventAggregator.prototype.subscribe = function (event, callback) {
+    var subscribers, handler;
+
+    if (typeof event === "string") {
+      subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
+
+      subscribers.push(callback);
+
+      return function () {
+        subscribers.splice(subscribers.indexOf(callback), 1);
+      };
+    } else {
+      handler = new Handler(event, callback);
+      subscribers = this.messageHandlers;
+
+      subscribers.push(handler);
+
+      return function () {
+        subscribers.splice(subscribers.indexOf(handler), 1);
+      };
+    }
+  };
 
   exports.EventAggregator = EventAggregator;
   function includeEventsIn(obj) {
@@ -85,5 +78,9 @@ define(["exports"], function (exports) {
     };
 
     return ea;
+  }
+
+  function install(aurelia) {
+    aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
   }
 });
