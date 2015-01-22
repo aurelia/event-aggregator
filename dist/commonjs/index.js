@@ -8,14 +8,14 @@ var _prototypeProperties = function (child, staticProps, instanceProps) {
 exports.includeEventsIn = includeEventsIn;
 exports.install = install;
 var Handler = (function () {
-  var Handler = function Handler(messageType, callback) {
+  function Handler(messageType, callback) {
     this.messageType = messageType;
     this.callback = callback;
-  };
+  }
 
   _prototypeProperties(Handler, null, {
     handle: {
-      value: function (message) {
+      value: function handle(message) {
         if (message instanceof this.messageType) {
           this.callback.call(null, message);
         }
@@ -30,14 +30,14 @@ var Handler = (function () {
 })();
 
 var EventAggregator = (function () {
-  var EventAggregator = function EventAggregator() {
+  function EventAggregator() {
     this.eventLookup = {};
     this.messageHandlers = [];
-  };
+  }
 
   _prototypeProperties(EventAggregator, null, {
     publish: {
-      value: function (event, data) {
+      value: function publish(event, data) {
         var subscribers, i, handler;
 
         if (typeof event === "string") {
@@ -64,7 +64,7 @@ var EventAggregator = (function () {
       configurable: true
     },
     subscribe: {
-      value: function (event, callback) {
+      value: function subscribe(event, callback) {
         var subscribers, handler;
 
         if (typeof event === "string") {

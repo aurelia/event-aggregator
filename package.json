@@ -1,6 +1,6 @@
 {
   "name": "aurelia-event-aggregator",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A lightweight pub/sub messaging system for app-wide or per-object loosely coupled events.",
   "keywords": [
     "aurelia",

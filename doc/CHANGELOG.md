@@ -1,3 +1,7 @@
+### 0.2.2 (2015-01-22)
+
+* Update compiler.
+
 ### 0.2.1 (2015-01-12)
 
 * Updated compiled output.
