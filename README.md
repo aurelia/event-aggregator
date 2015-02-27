@@ -11,6 +11,7 @@ This library has **NO** external dependencies.
 ## Used By
 
 * [aurelia-bootstrapper](https://github.com/aurelia/bootstrapper)
+* [aurelia-router](https://github.com/aurelia/router)
 
 ## Platform Support
 
