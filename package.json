@@ -1,6 +1,6 @@
 {
   "name": "aurelia-event-aggregator",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A lightweight pub/sub messaging system for app-wide or per-object loosely coupled events.",
   "keywords": [
     "aurelia",
@@ -20,11 +20,11 @@
     "url": "http://github.com/aurelia/event-aggregator"
   },
   "jspm": {
+    "main": "system/index",
+    "format": "register",
     "directories": {
       "lib": "dist"
-    },
-    "main": "system/index",
-    "format": "register"
+    }
   },
   "devDependencies": {
     "aurelia-tools": "^0.1.0",

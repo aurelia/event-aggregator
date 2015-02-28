@@ -1,14 +1,16 @@
 "use strict";
 
-var _prototypeProperties = function (child, staticProps, instanceProps) {
-  if (staticProps) Object.defineProperties(child, staticProps);
-  if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-};
+var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+
+var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 exports.includeEventsIn = includeEventsIn;
 exports.install = install;
+
 var Handler = (function () {
   function Handler(messageType, callback) {
+    _classCallCheck(this, Handler);
+
     this.messageType = messageType;
     this.callback = callback;
   }
@@ -21,7 +23,6 @@ var Handler = (function () {
         }
       },
       writable: true,
-      enumerable: true,
       configurable: true
     }
   });
@@ -29,8 +30,10 @@ var Handler = (function () {
   return Handler;
 })();
 
-var EventAggregator = (function () {
+var EventAggregator = exports.EventAggregator = (function () {
   function EventAggregator() {
+    _classCallCheck(this, EventAggregator);
+
     this.eventLookup = {};
     this.messageHandlers = [];
   }
@@ -60,7 +63,6 @@ var EventAggregator = (function () {
         }
       },
       writable: true,
-      enumerable: true,
       configurable: true
     },
     subscribe: {
@@ -87,7 +89,6 @@ var EventAggregator = (function () {
         }
       },
       writable: true,
-      enumerable: true,
       configurable: true
     }
   });
@@ -95,7 +96,6 @@ var EventAggregator = (function () {
   return EventAggregator;
 })();
 
-exports.EventAggregator = EventAggregator;
 function includeEventsIn(obj) {
   var ea = new EventAggregator();
 
@@ -113,3 +113,7 @@ function includeEventsIn(obj) {
 function install(aurelia) {
   aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
 }
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});

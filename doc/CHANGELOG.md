@@ -1,3 +1,11 @@
+### 0.2.3 (2015-02-28)
+
+
+#### Bug Fixes
+
+* **build:** add missing bower bump ([31130469](http://github.com/aurelia/event-aggregator/commit/31130469776c1518355122d8d61577d4fefd6c8b))
+
+
 ### 0.2.2 (2015-01-22)
 
 * Update compiler.

@@ -1,15 +1,17 @@
 define(["exports"], function (exports) {
   "use strict";
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) {
-    if (staticProps) Object.defineProperties(child, staticProps);
-    if (instanceProps) Object.defineProperties(child.prototype, instanceProps);
-  };
+  var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
   exports.includeEventsIn = includeEventsIn;
   exports.install = install;
+
   var Handler = (function () {
     function Handler(messageType, callback) {
+      _classCallCheck(this, Handler);
+
       this.messageType = messageType;
       this.callback = callback;
     }
@@ -22,7 +24,6 @@ define(["exports"], function (exports) {
           }
         },
         writable: true,
-        enumerable: true,
         configurable: true
       }
     });
@@ -30,8 +31,10 @@ define(["exports"], function (exports) {
     return Handler;
   })();
 
-  var EventAggregator = (function () {
+  var EventAggregator = exports.EventAggregator = (function () {
     function EventAggregator() {
+      _classCallCheck(this, EventAggregator);
+
       this.eventLookup = {};
       this.messageHandlers = [];
     }
@@ -61,7 +64,6 @@ define(["exports"], function (exports) {
           }
         },
         writable: true,
-        enumerable: true,
         configurable: true
       },
       subscribe: {
@@ -88,7 +90,6 @@ define(["exports"], function (exports) {
           }
         },
         writable: true,
-        enumerable: true,
         configurable: true
       }
     });
@@ -96,7 +97,6 @@ define(["exports"], function (exports) {
     return EventAggregator;
   })();
 
-  exports.EventAggregator = EventAggregator;
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
 
@@ -114,4 +114,8 @@ define(["exports"], function (exports) {
   function install(aurelia) {
     aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
   }
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
 });
