@@ -1,3 +1,11 @@
+### 0.2.4 (2015-02-28)
+
+
+#### Bug Fixes
+
+* **package:** change jspm directories ([84c67fbc](http://github.com/aurelia/event-aggregator/commit/84c67fbc43971830255d20a08d726de9565b6dbd))
+
+
 ### 0.2.3 (2015-02-28)
 
 
