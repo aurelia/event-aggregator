@@ -18,7 +18,7 @@ export class EventAggregator {
   }
 
   publish(event, data){
-    var subscribers, i, handler;
+    var subscribers, i;
 
     if(typeof event === 'string'){
       subscribers = this.eventLookup[event];
@@ -62,12 +62,20 @@ export class EventAggregator {
       };
     }
   }
+
+  subscribeOnce(event, callback){
+    var sub = this.subscribe(event,function(data,event){
+      sub();
+      return callback(data,event);
+    });
+    return sub;
+  }
 }
 
 export function includeEventsIn(obj){
   var ea = new EventAggregator();
 
-  obj.subscribe = function(event, callback){ 
+  obj.subscribe = function(event, callback){
     return ea.subscribe(event, callback);
   };
 
