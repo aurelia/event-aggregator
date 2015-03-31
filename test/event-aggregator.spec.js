@@ -115,96 +115,127 @@ describe('event aggregator', () =>{
 
   describe('subscribeOnce', () =>{
 
-    it('adds event with an anynomous function that will execute the callback to the eventLookup object', () =>{
-      var ea = new EventAggregator();
+    describe('string events', () =>{
 
-      var callback = function(){};
-      ea.subscribeOnce('dinner', callback);
+      it('adds event with an anynomous function that will execute the callback to the eventLookup object', () =>{
+        var ea = new EventAggregator();
 
-      expect(ea.eventLookup.dinner.length).toBe(1);
-      expect(ea.eventLookup.dinner[0] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+        var callback = function(){};
+        ea.subscribeOnce('dinner', callback);
+
+        expect(ea.eventLookup.dinner.length).toBe(1);
+        expect(ea.eventLookup.dinner[0] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+      });
+
+      it('adds multiple callbacks the same event', () =>{
+        var ea = new EventAggregator();
+
+        var callback = function(){};
+        ea.subscribeOnce('dinner', callback);
+
+        var callback2 = function(){};
+        ea.subscribeOnce('dinner', callback2);
+
+        expect(ea.eventLookup.dinner.length).toBe(2);
+        expect(ea.eventLookup.dinner[0] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+        expect(ea.eventLookup.dinner[1] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[1] === "function").toBe(true);
+      });
+
+      it('removes the callback after execution', ()=>{
+        var ea = new EventAggregator();
+
+        var callback = function(){};
+        var executeMe = ea.subscribeOnce('dinner', callback);
+
+        var callback2 = function(){};
+        var executeMeToo = ea.subscribeOnce('dinner', callback2);
+
+        expect(ea.eventLookup.dinner.length).toBe(2);
+        expect(ea.eventLookup.dinner[0] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+        expect(ea.eventLookup.dinner[1] === callback2).toBe(false);
+        expect(typeof ea.eventLookup.dinner[1] === "function").toBe(true);
+
+        executeMe();
+
+        expect(ea.eventLookup.dinner.length).toBe(1);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+
+        executeMeToo();
+        expect(ea.eventLookup.dinner.length).toBe(0);
+      });
+
+      it('will respond to an event only once', ()=>{
+        var ea = new EventAggregator();
+
+        var data = null;
+
+        var callback = function(){data = "something";};
+        ea.subscribeOnce('dinner', callback);
+
+        expect(ea.eventLookup.dinner.length).toBe(1);
+        expect(ea.eventLookup.dinner[0] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+
+        ea.publish('dinner');
+        expect(data).toBe("something");
+
+        expect(ea.eventLookup.dinner.length).toBe(0);
+
+        data = null;
+        ea.publish('dinner');
+        expect(data).toBe(null);
+      });
+
+      it('will pass published data to the callback function', ()=>{
+        var ea = new EventAggregator();
+
+        var data = null;
+        var callback = function(d){data = d;};
+        ea.subscribeOnce('dinner', callback);
+
+        expect(ea.eventLookup.dinner.length).toBe(1);
+        expect(ea.eventLookup.dinner[0] === callback).toBe(false);
+        expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
+
+        ea.publish('dinner',{foo:"bar"});
+        expect(data.foo).toBe("bar");
+
+        data = null;
+        ea.publish('dinner');
+        expect(data).toBe(null);
+      });
     });
 
-    it('adds multiple callbacks the same event', () =>{
-      var ea = new EventAggregator();
+    describe('handler events', () =>{
 
-      var callback = function(){};
-      ea.subscribeOnce('dinner', callback);
+      it('adds handler with messageType and callback to the messageHandlers array', ()=>{
+        var ea = new EventAggregator();
 
-      var callback2 = function(){};
-      ea.subscribeOnce('dinner', callback2);
+        var callback = function(){};
+        ea.subscribeOnce(DinnerEvent, callback);
 
-      expect(ea.eventLookup.dinner.length).toBe(2);
-      expect(ea.eventLookup.dinner[0] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
-      expect(ea.eventLookup.dinner[1] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[1] === "function").toBe(true);
-    });
+        expect(ea.messageHandlers.length).toBe(1);
+        expect(ea.messageHandlers[0].messageType).toBe(DinnerEvent);
+        expect(ea.messageHandlers[0].callback === callback).toBe(false);
+        expect(typeof ea.messageHandlers[0].callback === "function").toBe(true);
 
-    it('removes the callback after execution', ()=>{
-      var ea = new EventAggregator();
+      });
 
-      var callback = function(){};
-      var executeMe = ea.subscribeOnce('dinner', callback);
+      it('removes the handler after execution', () =>{
+        var ea = new EventAggregator();
 
-      var callback2 = function(){};
-      var executeMeToo = ea.subscribeOnce('dinner', callback2);
+        var callback = function(){};
+        var executeMe = ea.subscribeOnce(DinnerEvent, callback);
 
-      expect(ea.eventLookup.dinner.length).toBe(2);
-      expect(ea.eventLookup.dinner[0] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
-      expect(ea.eventLookup.dinner[1] === callback2).toBe(false);
-      expect(typeof ea.eventLookup.dinner[1] === "function").toBe(true);
+        expect(ea.messageHandlers.length).toBe(1);
+        executeMe();
+        expect(ea.messageHandlers.length).toBe(0);
+      });
 
-      executeMe();
-
-      expect(ea.eventLookup.dinner.length).toBe(1);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
-
-      executeMeToo();
-      expect(ea.eventLookup.dinner.length).toBe(0);
-    });
-
-    it('will respond to an event only once', ()=>{
-      var ea = new EventAggregator();
-
-      var data = null;
-
-      var callback = function(){data = "something";};
-      ea.subscribeOnce('dinner', callback);
-
-      expect(ea.eventLookup.dinner.length).toBe(1);
-      expect(ea.eventLookup.dinner[0] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
-
-      ea.publish('dinner');
-      expect(data).toBe("something");
-
-      expect(ea.eventLookup.dinner.length).toBe(0);
-
-      data = null;
-      ea.publish('dinner');
-      expect(data).toBe(null);
-    });
-
-    it('will pass published data to the callback function', ()=>{
-      var ea = new EventAggregator();
-
-      var data = null;
-      var callback = function(d){data = d;};
-      ea.subscribeOnce('dinner', callback);
-
-      expect(ea.eventLookup.dinner.length).toBe(1);
-      expect(ea.eventLookup.dinner[0] === callback).toBe(false);
-      expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
-
-      ea.publish('dinner',{foo:"bar"});
-      expect(data.foo).toBe("bar");
-
-      data = null;
-      ea.publish('dinner');
-      expect(data).toBe(null);
     });
 
   });
