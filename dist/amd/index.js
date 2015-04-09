@@ -1,10 +1,13 @@
-define(["exports"], function (exports) {
-  "use strict";
+define(['exports'], function (exports) {
+  'use strict';
 
-  var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
   exports.includeEventsIn = includeEventsIn;
   exports.install = install;
 
@@ -16,22 +19,19 @@ define(["exports"], function (exports) {
       this.callback = callback;
     }
 
-    _prototypeProperties(Handler, null, {
-      handle: {
-        value: function handle(message) {
-          if (message instanceof this.messageType) {
-            this.callback.call(null, message);
-          }
-        },
-        writable: true,
-        configurable: true
+    _createClass(Handler, [{
+      key: 'handle',
+      value: function handle(message) {
+        if (message instanceof this.messageType) {
+          this.callback.call(null, message);
+        }
       }
-    });
+    }]);
 
     return Handler;
   })();
 
-  var EventAggregator = exports.EventAggregator = (function () {
+  var EventAggregator = (function () {
     function EventAggregator() {
       _classCallCheck(this, EventAggregator);
 
@@ -39,63 +39,69 @@ define(["exports"], function (exports) {
       this.messageHandlers = [];
     }
 
-    _prototypeProperties(EventAggregator, null, {
-      publish: {
-        value: function publish(event, data) {
-          var subscribers, i, handler;
+    _createClass(EventAggregator, [{
+      key: 'publish',
+      value: function publish(event, data) {
+        var subscribers, i;
 
-          if (typeof event === "string") {
-            subscribers = this.eventLookup[event];
-            if (subscribers) {
-              subscribers = subscribers.slice();
-              i = subscribers.length;
-
-              while (i--) {
-                subscribers[i](data, event);
-              }
-            }
-          } else {
-            subscribers = this.messageHandlers.slice();
+        if (typeof event === 'string') {
+          subscribers = this.eventLookup[event];
+          if (subscribers) {
+            subscribers = subscribers.slice();
             i = subscribers.length;
 
             while (i--) {
-              subscribers[i].handle(event);
+              subscribers[i](data, event);
             }
           }
-        },
-        writable: true,
-        configurable: true
-      },
-      subscribe: {
-        value: function subscribe(event, callback) {
-          var subscribers, handler;
+        } else {
+          subscribers = this.messageHandlers.slice();
+          i = subscribers.length;
 
-          if (typeof event === "string") {
-            subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-
-            subscribers.push(callback);
-
-            return function () {
-              subscribers.splice(subscribers.indexOf(callback), 1);
-            };
-          } else {
-            handler = new Handler(event, callback);
-            subscribers = this.messageHandlers;
-
-            subscribers.push(handler);
-
-            return function () {
-              subscribers.splice(subscribers.indexOf(handler), 1);
-            };
+          while (i--) {
+            subscribers[i].handle(event);
           }
-        },
-        writable: true,
-        configurable: true
+        }
       }
-    });
+    }, {
+      key: 'subscribe',
+      value: function subscribe(event, callback) {
+        var subscribers, handler;
+
+        if (typeof event === 'string') {
+          subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
+
+          subscribers.push(callback);
+
+          return function () {
+            subscribers.splice(subscribers.indexOf(callback), 1);
+          };
+        } else {
+          handler = new Handler(event, callback);
+          subscribers = this.messageHandlers;
+
+          subscribers.push(handler);
+
+          return function () {
+            subscribers.splice(subscribers.indexOf(handler), 1);
+          };
+        }
+      }
+    }, {
+      key: 'subscribeOnce',
+      value: function subscribeOnce(event, callback) {
+        var sub = this.subscribe(event, function (data, event) {
+          sub();
+          return callback(data, event);
+        });
+        return sub;
+      }
+    }]);
 
     return EventAggregator;
   })();
+
+  exports.EventAggregator = EventAggregator;
 
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
@@ -114,8 +120,4 @@ define(["exports"], function (exports) {
   function install(aurelia) {
     aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
   }
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
 });

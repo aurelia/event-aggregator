@@ -1,9 +1,9 @@
 System.register([], function (_export) {
-  var _prototypeProperties, _classCallCheck, Handler, EventAggregator;
+  var _classCallCheck, _createClass, Handler, EventAggregator;
 
-  _export("includeEventsIn", includeEventsIn);
+  _export('includeEventsIn', includeEventsIn);
 
-  _export("install", install);
+  _export('install', install);
 
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
@@ -26,11 +26,11 @@ System.register([], function (_export) {
   return {
     setters: [],
     execute: function () {
-      "use strict";
+      'use strict';
 
-      _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+      _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-      _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+      _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
       Handler = (function () {
         function Handler(messageType, callback) {
@@ -40,22 +40,19 @@ System.register([], function (_export) {
           this.callback = callback;
         }
 
-        _prototypeProperties(Handler, null, {
-          handle: {
-            value: function handle(message) {
-              if (message instanceof this.messageType) {
-                this.callback.call(null, message);
-              }
-            },
-            writable: true,
-            configurable: true
+        _createClass(Handler, [{
+          key: 'handle',
+          value: function handle(message) {
+            if (message instanceof this.messageType) {
+              this.callback.call(null, message);
+            }
           }
-        });
+        }]);
 
         return Handler;
       })();
 
-      EventAggregator = _export("EventAggregator", (function () {
+      EventAggregator = (function () {
         function EventAggregator() {
           _classCallCheck(this, EventAggregator);
 
@@ -63,63 +60,69 @@ System.register([], function (_export) {
           this.messageHandlers = [];
         }
 
-        _prototypeProperties(EventAggregator, null, {
-          publish: {
-            value: function publish(event, data) {
-              var subscribers, i, handler;
+        _createClass(EventAggregator, [{
+          key: 'publish',
+          value: function publish(event, data) {
+            var subscribers, i;
 
-              if (typeof event === "string") {
-                subscribers = this.eventLookup[event];
-                if (subscribers) {
-                  subscribers = subscribers.slice();
-                  i = subscribers.length;
-
-                  while (i--) {
-                    subscribers[i](data, event);
-                  }
-                }
-              } else {
-                subscribers = this.messageHandlers.slice();
+            if (typeof event === 'string') {
+              subscribers = this.eventLookup[event];
+              if (subscribers) {
+                subscribers = subscribers.slice();
                 i = subscribers.length;
 
                 while (i--) {
-                  subscribers[i].handle(event);
+                  subscribers[i](data, event);
                 }
               }
-            },
-            writable: true,
-            configurable: true
-          },
-          subscribe: {
-            value: function subscribe(event, callback) {
-              var subscribers, handler;
+            } else {
+              subscribers = this.messageHandlers.slice();
+              i = subscribers.length;
 
-              if (typeof event === "string") {
-                subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-
-                subscribers.push(callback);
-
-                return function () {
-                  subscribers.splice(subscribers.indexOf(callback), 1);
-                };
-              } else {
-                handler = new Handler(event, callback);
-                subscribers = this.messageHandlers;
-
-                subscribers.push(handler);
-
-                return function () {
-                  subscribers.splice(subscribers.indexOf(handler), 1);
-                };
+              while (i--) {
+                subscribers[i].handle(event);
               }
-            },
-            writable: true,
-            configurable: true
+            }
           }
-        });
+        }, {
+          key: 'subscribe',
+          value: function subscribe(event, callback) {
+            var subscribers, handler;
+
+            if (typeof event === 'string') {
+              subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
+
+              subscribers.push(callback);
+
+              return function () {
+                subscribers.splice(subscribers.indexOf(callback), 1);
+              };
+            } else {
+              handler = new Handler(event, callback);
+              subscribers = this.messageHandlers;
+
+              subscribers.push(handler);
+
+              return function () {
+                subscribers.splice(subscribers.indexOf(handler), 1);
+              };
+            }
+          }
+        }, {
+          key: 'subscribeOnce',
+          value: function subscribeOnce(event, callback) {
+            var sub = this.subscribe(event, function (data, event) {
+              sub();
+              return callback(data, event);
+            });
+            return sub;
+          }
+        }]);
 
         return EventAggregator;
-      })());
+      })();
+
+      _export('EventAggregator', EventAggregator);
     }
   };
 });

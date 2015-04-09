@@ -1,3 +1,16 @@
+## 0.3.0 (2015-04-09)
+
+
+#### Bug Fixes
+
+* **all:** upgrade to latest compiler ([ae84b313](http://github.com/aurelia/event-aggregator/commit/ae84b3139c1cc906614a904d78935e06a7959fde))
+
+
+#### Features
+
+* **event-aggregator:** subscribeOnce function ([076264e7](http://github.com/aurelia/event-aggregator/commit/076264e7ffc2bcec090b4c4339671262ffb8238d))
+
+
 ### 0.2.4 (2015-02-28)
 
 
