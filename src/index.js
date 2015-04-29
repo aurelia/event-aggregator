@@ -75,6 +75,10 @@ export class EventAggregator {
 export function includeEventsIn(obj){
   var ea = new EventAggregator();
 
+  obj.subscribeOnce = function(event, callback){
+    return ea.subscribeOnce(event, callback);
+  };
+
   obj.subscribe = function(event, callback){
     return ea.subscribe(event, callback);
   };
@@ -86,6 +90,6 @@ export function includeEventsIn(obj){
   return ea;
 }
 
-export function install(aurelia){
+export function configure(aurelia){
   aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
 }
