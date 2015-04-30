@@ -3,13 +3,9 @@ define(['exports'], function (exports) {
 
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
-  var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });
+  exports.__esModule = true;
   exports.includeEventsIn = includeEventsIn;
-  exports.install = install;
+  exports.configure = configure;
 
   var Handler = (function () {
     function Handler(messageType, callback) {
@@ -19,14 +15,11 @@ define(['exports'], function (exports) {
       this.callback = callback;
     }
 
-    _createClass(Handler, [{
-      key: 'handle',
-      value: function handle(message) {
-        if (message instanceof this.messageType) {
-          this.callback.call(null, message);
-        }
+    Handler.prototype.handle = function handle(message) {
+      if (message instanceof this.messageType) {
+        this.callback.call(null, message);
       }
-    }]);
+    };
 
     return Handler;
   })();
@@ -39,64 +32,65 @@ define(['exports'], function (exports) {
       this.messageHandlers = [];
     }
 
-    _createClass(EventAggregator, [{
-      key: 'publish',
-      value: function publish(event, data) {
-        var subscribers, i;
+    EventAggregator.prototype.publish = function publish(event, data) {
+      var subscribers, i;
 
-        if (typeof event === 'string') {
-          subscribers = this.eventLookup[event];
-          if (subscribers) {
-            subscribers = subscribers.slice();
-            i = subscribers.length;
-
-            while (i--) {
-              subscribers[i](data, event);
-            }
-          }
-        } else {
-          subscribers = this.messageHandlers.slice();
+      if (typeof event === 'string') {
+        subscribers = this.eventLookup[event];
+        if (subscribers) {
+          subscribers = subscribers.slice();
           i = subscribers.length;
 
           while (i--) {
-            subscribers[i].handle(event);
+            subscribers[i](data, event);
           }
         }
-      }
-    }, {
-      key: 'subscribe',
-      value: function subscribe(event, callback) {
-        var subscribers, handler;
+      } else {
+        subscribers = this.messageHandlers.slice();
+        i = subscribers.length;
 
-        if (typeof event === 'string') {
-          subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-
-          subscribers.push(callback);
-
-          return function () {
-            subscribers.splice(subscribers.indexOf(callback), 1);
-          };
-        } else {
-          handler = new Handler(event, callback);
-          subscribers = this.messageHandlers;
-
-          subscribers.push(handler);
-
-          return function () {
-            subscribers.splice(subscribers.indexOf(handler), 1);
-          };
+        while (i--) {
+          subscribers[i].handle(event);
         }
       }
-    }, {
-      key: 'subscribeOnce',
-      value: function subscribeOnce(event, callback) {
-        var sub = this.subscribe(event, function (data, event) {
-          sub();
-          return callback(data, event);
-        });
-        return sub;
+    };
+
+    EventAggregator.prototype.subscribe = function subscribe(event, callback) {
+      var subscribers, handler;
+
+      if (typeof event === 'string') {
+        subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
+
+        subscribers.push(callback);
+
+        return function () {
+          var idx = subscribers.indexOf(callback);
+          if (idx != -1) {
+            subscribers.splice(idx, 1);
+          }
+        };
+      } else {
+        handler = new Handler(event, callback);
+        subscribers = this.messageHandlers;
+
+        subscribers.push(handler);
+
+        return function () {
+          var idx = subscribers.indexOf(handler);
+          if (idx != -1) {
+            subscribers.splice(idx, 1);
+          }
+        };
       }
-    }]);
+    };
+
+    EventAggregator.prototype.subscribeOnce = function subscribeOnce(event, callback) {
+      var sub = this.subscribe(event, function (data, event) {
+        sub();
+        return callback(data, event);
+      });
+      return sub;
+    };
 
     return EventAggregator;
   })();
@@ -105,6 +99,10 @@ define(['exports'], function (exports) {
 
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
+
+    obj.subscribeOnce = function (event, callback) {
+      return ea.subscribeOnce(event, callback);
+    };
 
     obj.subscribe = function (event, callback) {
       return ea.subscribe(event, callback);
@@ -117,7 +115,7 @@ define(['exports'], function (exports) {
     return ea;
   }
 
-  function install(aurelia) {
+  function configure(aurelia) {
     aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
   }
 });

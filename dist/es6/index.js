@@ -49,7 +49,10 @@ export class EventAggregator {
       subscribers.push(callback);
 
       return function(){
-        subscribers.splice(subscribers.indexOf(callback), 1);
+        var idx = subscribers.indexOf(callback);
+        if (idx != -1) {
+          subscribers.splice(idx, 1);
+        }
       };
     }else{
       handler = new Handler(event, callback);
@@ -58,7 +61,10 @@ export class EventAggregator {
       subscribers.push(handler);
 
       return function(){
-        subscribers.splice(subscribers.indexOf(handler), 1);
+        var idx = subscribers.indexOf(handler);
+        if (idx != -1) {
+          subscribers.splice(idx, 1);
+        }
       };
     }
   }
@@ -75,6 +81,10 @@ export class EventAggregator {
 export function includeEventsIn(obj){
   var ea = new EventAggregator();
 
+  obj.subscribeOnce = function(event, callback){
+    return ea.subscribeOnce(event, callback);
+  };
+
   obj.subscribe = function(event, callback){
     return ea.subscribe(event, callback);
   };
@@ -86,6 +96,6 @@ export function includeEventsIn(obj){
   return ea;
 }
 
-export function install(aurelia){
+export function configure(aurelia){
   aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
 }

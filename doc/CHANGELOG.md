@@ -1,3 +1,12 @@
+## 0.4.0 (2015-04-30)
+
+
+#### Bug Fixes
+
+* **all:** update to latest plugin api ([2a17472d](http://github.com/aurelia/event-aggregator/commit/2a17472dba61e6d6f364207d2ba438e65a97ed87))
+* **event-aggregator:** removing another callback when called twice ([50e01cd7](http://github.com/aurelia/event-aggregator/commit/50e01cd7d882aaef49b7ff892b324ed4088e0b15))
+
+
 ## 0.3.0 (2015-04-09)
 
 
