@@ -6,6 +6,22 @@ describe('event aggregator', () =>{
 
     describe('string events', () =>{
 
+      it('should not remove another callback when execute called twice', ()=>{
+        var ea = new EventAggregator();
+
+        var data = 0;
+
+        var executeMe = ea.subscribe('dinner', function() {});
+        ea.subscribe('dinner', function() { data = 1; });
+
+        executeMe();
+        executeMe();
+
+        ea.publish('dinner');
+
+        expect(data).toBe(1);
+      });
+
       it('adds event with callback to the eventLookup object', () =>{
         var ea = new EventAggregator();
 
@@ -87,6 +103,22 @@ describe('event aggregator', () =>{
 
     describe('handler events', () =>{
 
+      it('should not remove another handler when execute called twice', ()=>{
+        var ea = new EventAggregator();
+
+        var data = 0;
+
+        var executeMe = ea.subscribe(DinnerEvent, function() {});
+        ea.subscribe(AnotherDinnerEvent, function() { data = 1; });
+
+        executeMe();
+        executeMe();
+
+        ea.publish(new AnotherDinnerEvent(""));
+
+        expect(data).toBe(1);
+      });
+
       it('adds handler with messageType and callback to the messageHandlers array', ()=>{
         var ea = new EventAggregator();
 
@@ -117,7 +149,7 @@ describe('event aggregator', () =>{
 
     describe('string events', () =>{
 
-      it('adds event with an anynomous function that will execute the callback to the eventLookup object', () =>{
+      it('adds event with an anynomous function that will execute the callback to the eventLookup object', ()=>{
         var ea = new EventAggregator();
 
         var callback = function(){};
@@ -328,6 +360,16 @@ describe('event aggregator', () =>{
 });
 
 class DinnerEvent {
+  constructor(message){
+    this._message = message;
+  }
+
+  get message(){
+    return this._message;
+  }
+}
+
+class AnotherDinnerEvent {
   constructor(message){
     this._message = message;
   }

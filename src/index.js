@@ -49,7 +49,10 @@ export class EventAggregator {
       subscribers.push(callback);
 
       return function(){
-        subscribers.splice(subscribers.indexOf(callback), 1);
+        var idx = subscribers.indexOf(callback);
+        if (idx != -1) {
+          subscribers.splice(idx, 1);
+        }
       };
     }else{
       handler = new Handler(event, callback);
@@ -58,7 +61,10 @@ export class EventAggregator {
       subscribers.push(handler);
 
       return function(){
-        subscribers.splice(subscribers.indexOf(handler), 1);
+        var idx = subscribers.indexOf(handler);
+        if (idx != -1) {
+          subscribers.splice(idx, 1);
+        }
       };
     }
   }
