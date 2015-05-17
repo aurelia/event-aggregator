@@ -24,6 +24,9 @@
     "format": "register",
     "directories": {
       "lib": "dist/system"
+    },
+    "dependencies": {
+      "aurelia-logging": "github:aurelia/logging@^0.4.0"
     }
   },
   "devDependencies": {

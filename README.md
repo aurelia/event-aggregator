@@ -9,7 +9,7 @@ This library is part of the [Aurelia](http://www.aurelia.io/) platform and conta
 
 ## Dependencies
 
-This library has **NO** external dependencies.
+* [aurelia-logging](https://github.com/aurelia/logging)
 
 ## Used By
 

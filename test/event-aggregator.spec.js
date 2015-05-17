@@ -313,6 +313,29 @@ describe('event aggregator', () =>{
         expect(someData).toBeUndefined();
       });
 
+      it('handles errors in subscriber callbacks', () => {
+        var ea = new EventAggregator();
+
+        var someMessage;
+
+        var crash = function() {
+          throw new Error('oops');
+        }
+
+        var callback = function(message){
+          someMessage = message;
+        };
+
+        var data = {foo: 'bar'};
+
+        ea.subscribe('dinner', crash);
+        ea.subscribe('dinner', callback);
+
+        ea.publish('dinner', data);
+
+        expect(someMessage).toBe(data);
+      });
+
     });
 
     describe('handler events', () =>{
@@ -351,6 +374,30 @@ describe('event aggregator', () =>{
         ea.publish(new DrinkingEvent());
 
         expect(someMessage).toBeUndefined();
+      });
+
+
+      it('handles errors in subscriber callbacks', () => {
+        var ea = new EventAggregator();
+
+        var someMessage;
+
+        var crash = function() {
+          throw new Error('oops');
+        }
+
+        var callback = function(message){
+          someMessage = message;
+        };
+
+        var data = {foo: 'bar'};
+
+        ea.subscribe(DinnerEvent, crash);
+        ea.subscribe(DinnerEvent, callback);
+
+        ea.publish(new DinnerEvent(data));
+
+        expect(someMessage.message).toBe(data);
       });
 
     });
