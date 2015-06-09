@@ -1,9 +1,21 @@
-System.register([], function (_export) {
-  var _classCallCheck, Handler, EventAggregator;
+System.register(['aurelia-logging'], function (_export) {
+  'use strict';
+
+  var LogManager, logger, Handler, EventAggregator;
 
   _export('includeEventsIn', includeEventsIn);
 
   _export('configure', configure);
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  function executeHandler(handler) {
+    try {
+      handler();
+    } catch (e) {
+      logger.error(e);
+    }
+  }
 
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
@@ -28,11 +40,11 @@ System.register([], function (_export) {
   }
 
   return {
-    setters: [],
+    setters: [function (_aureliaLogging) {
+      LogManager = _aureliaLogging;
+    }],
     execute: function () {
-      'use strict';
-
-      _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+      logger = LogManager.getLogger('event-aggregator');
 
       Handler = (function () {
         function Handler(messageType, callback) {
@@ -43,8 +55,12 @@ System.register([], function (_export) {
         }
 
         Handler.prototype.handle = function handle(message) {
+          var _this = this;
+
           if (message instanceof this.messageType) {
-            this.callback.call(null, message);
+            executeHandler(function () {
+              return _this.callback.call(null, message);
+            });
           }
         };
 
@@ -69,7 +85,9 @@ System.register([], function (_export) {
               i = subscribers.length;
 
               while (i--) {
-                subscribers[i](data, event);
+                executeHandler(function () {
+                  return subscribers[i](data, event);
+                });
               }
             }
           } else {

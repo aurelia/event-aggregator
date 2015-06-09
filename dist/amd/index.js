@@ -1,11 +1,13 @@
-define(['exports'], function (exports) {
+define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
   'use strict';
-
-  var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
 
   exports.__esModule = true;
   exports.includeEventsIn = includeEventsIn;
   exports.configure = configure;
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+  var logger = _aureliaLogging.getLogger('event-aggregator');
 
   var Handler = (function () {
     function Handler(messageType, callback) {
@@ -16,13 +18,25 @@ define(['exports'], function (exports) {
     }
 
     Handler.prototype.handle = function handle(message) {
+      var _this = this;
+
       if (message instanceof this.messageType) {
-        this.callback.call(null, message);
+        executeHandler(function () {
+          return _this.callback.call(null, message);
+        });
       }
     };
 
     return Handler;
   })();
+
+  function executeHandler(handler) {
+    try {
+      handler();
+    } catch (e) {
+      logger.error(e);
+    }
+  }
 
   var EventAggregator = (function () {
     function EventAggregator() {
@@ -42,7 +56,9 @@ define(['exports'], function (exports) {
           i = subscribers.length;
 
           while (i--) {
-            subscribers[i](data, event);
+            executeHandler(function () {
+              return subscribers[i](data, event);
+            });
           }
         }
       } else {

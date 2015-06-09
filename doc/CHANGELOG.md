@@ -1,3 +1,11 @@
+## 0.5.0 (2015-06-08)
+
+
+#### Bug Fixes
+
+* **publish:** catch errors thrown in subscribers ([9dafe002](http://github.com/aurelia/event-aggregator/commit/9dafe002f1b2d8fbda5211495bb1de06c0b58c90))
+
+
 ## 0.4.0 (2015-04-30)
 
 
