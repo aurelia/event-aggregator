@@ -29,7 +29,7 @@ export class EventAggregator {
     this.messageHandlers = [];
   }
 
-  publish(event, data){
+  publish(event: string | any, data?: any){
     var subscribers, i;
 
     if(typeof event === 'string'){
