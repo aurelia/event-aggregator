@@ -1,3 +1,7 @@
+### 0.6.2 (2015-07-29)
+
+* improve output file name
+
 ### 0.6.1 (2015-07-07)
 
 
@@ -70,4 +74,3 @@
 
 * **build:** update compiler and switch to register module format ([302c2870](http://github.com/aurelia/event-aggregator/commit/302c287092d9812a3d2c7e5fca2c1bb20618fffc))
 * **event-aggregator:** enable plugin usage ([2c597329](http://github.com/aurelia/event-aggregator/commit/2c5973292dbd5087325226298ae966b1dcb7ac17))
-
