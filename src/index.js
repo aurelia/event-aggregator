@@ -108,6 +108,6 @@ export function includeEventsIn(obj){
   return ea;
 }
 
-export function configure(aurelia){
-  aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
+export function configure(config){
+  config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }
