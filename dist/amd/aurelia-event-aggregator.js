@@ -131,7 +131,7 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     return ea;
   }
 
-  function configure(aurelia) {
-    aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
+  function configure(config) {
+    config.instance(EventAggregator, includeEventsIn(config.aurelia));
   }
 });

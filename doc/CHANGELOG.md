@@ -1,3 +1,16 @@
+## 0.7.0 (2015-08-14)
+
+
+#### Bug Fixes
+
+* **index:** update to latest framework configuration api ([87083a44](http://github.com/aurelia/event-aggregator/commit/87083a44abaf411f694460ff7308c17c43b682b3))
+
+
+#### Features
+
+* **all:** add more type info ([7b08cae1](http://github.com/aurelia/event-aggregator/commit/7b08cae11ecc11c6e6130cfdfa9ded657c565ff4))
+
+
 ### 0.6.2 (2015-07-29)
 
 * improve output file name

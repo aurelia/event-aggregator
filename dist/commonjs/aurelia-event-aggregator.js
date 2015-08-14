@@ -136,6 +136,6 @@ function includeEventsIn(obj) {
   return ea;
 }
 
-function configure(aurelia) {
-  aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
+function configure(config) {
+  config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }

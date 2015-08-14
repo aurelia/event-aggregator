@@ -35,8 +35,8 @@ System.register(['aurelia-logging'], function (_export) {
     return ea;
   }
 
-  function configure(aurelia) {
-    aurelia.withInstance(EventAggregator, includeEventsIn(aurelia));
+  function configure(config) {
+    config.instance(EventAggregator, includeEventsIn(config.aurelia));
   }
 
   return {
