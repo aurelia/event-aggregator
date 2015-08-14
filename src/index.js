@@ -52,7 +52,7 @@ export class EventAggregator {
     }
   }
 
-  subscribe(event, callback){
+  subscribe(event: string | Function, callback: Function): Function {
     var subscribers, handler;
 
     if(typeof event === 'string'){
@@ -81,7 +81,7 @@ export class EventAggregator {
     }
   }
 
-  subscribeOnce(event, callback){
+  subscribeOnce(event: string | Function, callback: Function): Function {
     var sub = this.subscribe(event,function(data,event){
       sub();
       return callback(data,event);
@@ -90,7 +90,7 @@ export class EventAggregator {
   }
 }
 
-export function includeEventsIn(obj){
+export function includeEventsIn(obj: Object): EventAggregator {
   var ea = new EventAggregator();
 
   obj.subscribeOnce = function(event, callback){
@@ -108,6 +108,6 @@ export function includeEventsIn(obj){
   return ea;
 }
 
-export function configure(config){
+export function configure(config: Object): void {
   config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }
