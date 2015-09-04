@@ -1,6 +1,6 @@
 {
   "name": "aurelia-event-aggregator",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A lightweight pub/sub messaging system for app-wide or per-object loosely coupled events.",
   "keywords": [
     "aurelia",
@@ -26,7 +26,7 @@
       "lib": "dist/amd"
     },
     "dependencies": {
-      "aurelia-logging": "github:aurelia/logging@^0.6.3"
+      "aurelia-logging": "github:aurelia/logging@^0.7.0"
     },
     "devDependencies": {
       "babel": "npm:babel-core@^5.1.13",

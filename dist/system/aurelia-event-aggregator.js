@@ -9,14 +9,6 @@ System.register(['aurelia-logging'], function (_export) {
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  function executeHandler(handler) {
-    try {
-      handler();
-    } catch (e) {
-      logger.error(e);
-    }
-  }
-
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
 
@@ -55,12 +47,8 @@ System.register(['aurelia-logging'], function (_export) {
         }
 
         Handler.prototype.handle = function handle(message) {
-          var _this = this;
-
           if (message instanceof this.messageType) {
-            executeHandler(function () {
-              return _this.callback.call(null, message);
-            });
+            this.callback.call(null, message);
           }
         };
 
@@ -76,7 +64,8 @@ System.register(['aurelia-logging'], function (_export) {
         }
 
         EventAggregator.prototype.publish = function publish(event, data) {
-          var subscribers, i;
+          var subscribers = undefined;
+          var i = undefined;
 
           if (typeof event === 'string') {
             subscribers = this.eventLookup[event];
@@ -84,56 +73,62 @@ System.register(['aurelia-logging'], function (_export) {
               subscribers = subscribers.slice();
               i = subscribers.length;
 
-              while (i--) {
-                executeHandler(function () {
-                  return subscribers[i](data, event);
-                });
+              try {
+                while (i--) {
+                  subscribers[i](data, event);
+                }
+              } catch (e) {
+                logger.error(e);
               }
             }
           } else {
             subscribers = this.messageHandlers.slice();
             i = subscribers.length;
 
-            while (i--) {
-              subscribers[i].handle(event);
+            try {
+              while (i--) {
+                subscribers[i].handle(event);
+              }
+            } catch (e) {
+              logger.error(e);
             }
           }
         };
 
         EventAggregator.prototype.subscribe = function subscribe(event, callback) {
-          var subscribers, handler;
+          var subscribers = undefined;
+          var handler = undefined;
 
           if (typeof event === 'string') {
             subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-
             subscribers.push(callback);
 
             return function () {
               var idx = subscribers.indexOf(callback);
-              if (idx != -1) {
-                subscribers.splice(idx, 1);
-              }
-            };
-          } else {
-            handler = new Handler(event, callback);
-            subscribers = this.messageHandlers;
-
-            subscribers.push(handler);
-
-            return function () {
-              var idx = subscribers.indexOf(handler);
-              if (idx != -1) {
+              if (idx !== -1) {
                 subscribers.splice(idx, 1);
               }
             };
           }
+
+          handler = new Handler(event, callback);
+          subscribers = this.messageHandlers;
+          subscribers.push(handler);
+
+          return function () {
+            var idx = subscribers.indexOf(handler);
+            if (idx !== -1) {
+              subscribers.splice(idx, 1);
+            }
+          };
         };
 
         EventAggregator.prototype.subscribeOnce = function subscribeOnce(event, callback) {
-          var sub = this.subscribe(event, function (data, event) {
+          var sub = this.subscribe(event, function (a, b) {
             sub();
-            return callback(data, event);
+            return callback(a, b);
           });
+
           return sub;
         };
 

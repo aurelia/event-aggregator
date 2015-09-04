@@ -1,3 +1,16 @@
+## 0.8.0 (2015-09-04)
+
+
+#### Bug Fixes
+
+* **build:** update linting, testing and tools ([172366a4](http://github.com/aurelia/event-aggregator/commit/172366a4e3ce6b97c16fc0f6af96e2e32114ba2e))
+
+
+#### Features
+
+* **docs:** generate api.json from .d.ts file ([36ac335d](http://github.com/aurelia/event-aggregator/commit/36ac335d10d43b02fb0c4402dcfceb8946a89222))
+
+
 ## 0.7.0 (2015-08-14)
 
 

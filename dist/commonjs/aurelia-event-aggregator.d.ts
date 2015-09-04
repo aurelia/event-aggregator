@@ -6,7 +6,7 @@ declare module 'aurelia-event-aggregator' {
   }
   export class EventAggregator {
     constructor();
-    publish(event: string | any, data?: any): any;
+    publish(event: string | any, data?: any): void;
     subscribe(event: string | Function, callback: Function): Function;
     subscribeOnce(event: string | Function, callback: Function): Function;
   }
