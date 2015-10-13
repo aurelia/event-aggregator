@@ -15,6 +15,10 @@ class Handler {
   }
 }
 
+interface Subscription {
+  dispose(): void;
+}
+
 export class EventAggregator {
   constructor() {
     this.eventLookup = {};
@@ -35,7 +39,7 @@ export class EventAggregator {
           while (i--) {
             subscribers[i](data, event);
           }
-        } catch(e) {
+        } catch (e) {
           logger.error(e);
         }
       }
@@ -47,43 +51,39 @@ export class EventAggregator {
         while (i--) {
           subscribers[i].handle(event);
         }
-      } catch(e) {
+      } catch (e) {
         logger.error(e);
       }
     }
   }
 
-  subscribe(event: string | Function, callback: Function): Function {
-    let subscribers;
+  subscribe(event: string | Function, callback: Function): Subscription {
     let handler;
+    let subscribers;
 
     if (typeof event === 'string') {
+      handler = callback;
       subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-      subscribers.push(callback);
+    } else {
+      handler = new Handler(event, callback);
+      subscribers = this.messageHandlers;
+    }
 
-      return function() {
-        let idx = subscribers.indexOf(callback);
+    subscribers.push(handler);
+
+    return {
+      dispose() {
+        let idx = subscribers.indexOf(handler);
         if (idx !== -1) {
           subscribers.splice(idx, 1);
         }
-      };
-    }
-
-    handler = new Handler(event, callback);
-    subscribers = this.messageHandlers;
-    subscribers.push(handler);
-
-    return function() {
-      let idx = subscribers.indexOf(handler);
-      if (idx !== -1) {
-        subscribers.splice(idx, 1);
       }
     };
   }
 
-  subscribeOnce(event: string | Function, callback: Function): Function {
-    let sub = this.subscribe(event, function(a, b) {
-      sub();
+  subscribeOnce(event: string | Function, callback: Function): Subscription {
+    let sub = this.subscribe(event, (a, b) => {
+      sub.dispose();
       return callback(a, b);
     });
 

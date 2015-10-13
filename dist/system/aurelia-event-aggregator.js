@@ -96,36 +96,32 @@ System.register(['aurelia-logging'], function (_export) {
         };
 
         EventAggregator.prototype.subscribe = function subscribe(event, callback) {
-          var subscribers = undefined;
           var handler = undefined;
+          var subscribers = undefined;
 
           if (typeof event === 'string') {
+            handler = callback;
             subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-            subscribers.push(callback);
+          } else {
+            handler = new Handler(event, callback);
+            subscribers = this.messageHandlers;
+          }
 
-            return function () {
-              var idx = subscribers.indexOf(callback);
+          subscribers.push(handler);
+
+          return {
+            dispose: function dispose() {
+              var idx = subscribers.indexOf(handler);
               if (idx !== -1) {
                 subscribers.splice(idx, 1);
               }
-            };
-          }
-
-          handler = new Handler(event, callback);
-          subscribers = this.messageHandlers;
-          subscribers.push(handler);
-
-          return function () {
-            var idx = subscribers.indexOf(handler);
-            if (idx !== -1) {
-              subscribers.splice(idx, 1);
             }
           };
         };
 
         EventAggregator.prototype.subscribeOnce = function subscribeOnce(event, callback) {
           var sub = this.subscribe(event, function (a, b) {
-            sub();
+            sub.dispose();
             return callback(a, b);
           });
 
