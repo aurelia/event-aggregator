@@ -1,3 +1,34 @@
+## 0.9.0 (2015-10-13)
+
+
+#### Bug Fixes
+
+* **all:**
+  * update to latest plugin api ([2a17472d](http://github.com/aurelia/event-aggregator/commit/2a17472dba61e6d6f364207d2ba438e65a97ed87))
+  * upgrade to latest compiler ([ae84b313](http://github.com/aurelia/event-aggregator/commit/ae84b3139c1cc906614a904d78935e06a7959fde))
+* **build:**
+  * update linting, testing and tools ([172366a4](http://github.com/aurelia/event-aggregator/commit/172366a4e3ce6b97c16fc0f6af96e2e32114ba2e))
+  * add missing bower bump ([31130469](http://github.com/aurelia/event-aggregator/commit/31130469776c1518355122d8d61577d4fefd6c8b))
+* **event-aggregator:** removing another callback when called twice ([50e01cd7](http://github.com/aurelia/event-aggregator/commit/50e01cd7d882aaef49b7ff892b324ed4088e0b15))
+* **index:**
+  * update to latest framework configuration api ([87083a44](http://github.com/aurelia/event-aggregator/commit/87083a44abaf411f694460ff7308c17c43b682b3))
+  * remove invalid character ([96642658](http://github.com/aurelia/event-aggregator/commit/96642658caf7d90733a0e103980841ccbbc43eb8))
+* **package:** change jspm directories ([84c67fbc](http://github.com/aurelia/event-aggregator/commit/84c67fbc43971830255d20a08d726de9565b6dbd))
+* **publish:** catch errors thrown in subscribers ([9dafe002](http://github.com/aurelia/event-aggregator/commit/9dafe002f1b2d8fbda5211495bb1de06c0b58c90))
+
+
+#### Features
+
+* **all:**
+  * subscribe methods now return subscription object with dispose method ([862cb83f](http://github.com/aurelia/event-aggregator/commit/862cb83f2f1a3979fc39a90dbdbff4b1369dd252), closes [#10](http://github.com/aurelia/event-aggregator/issues/10))
+  * add more type info ([7b08cae1](http://github.com/aurelia/event-aggregator/commit/7b08cae11ecc11c6e6130cfdfa9ded657c565ff4))
+* **build:** update compiler and switch to register module format ([302c2870](http://github.com/aurelia/event-aggregator/commit/302c287092d9812a3d2c7e5fca2c1bb20618fffc))
+* **docs:** generate api.json from .d.ts file ([36ac335d](http://github.com/aurelia/event-aggregator/commit/36ac335d10d43b02fb0c4402dcfceb8946a89222))
+* **event-aggregator:**
+  * subscribeOnce function ([076264e7](http://github.com/aurelia/event-aggregator/commit/076264e7ffc2bcec090b4c4339671262ffb8238d))
+  * enable plugin usage ([2c597329](http://github.com/aurelia/event-aggregator/commit/2c5973292dbd5087325226298ae966b1dcb7ac17))
+
+
 ## 0.8.0 (2015-09-04)
 
 
