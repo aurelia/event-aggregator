@@ -1,21 +1,20 @@
 import {EventAggregator} from '../src/index';
 
-describe('event aggregator', () =>{
+describe('event aggregator', () => {
 
-  describe('subscribe', () =>{
+  describe('subscribe', () => {
 
-    describe('string events', () =>{
+    describe('string events', () => {
 
       it('should not remove another callback when execute called twice', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
+        let data = 0;
 
-        var data = 0;
-
-        var executeMe = ea.subscribe('dinner', function() {});
+        let subscription = ea.subscribe('dinner', function() {});
         ea.subscribe('dinner', function() { data = 1; });
 
-        executeMe();
-        executeMe();
+        subscription.dispose();
+        subscription.dispose();
 
         ea.publish('dinner');
 
@@ -23,9 +22,8 @@ describe('event aggregator', () =>{
       });
 
       it('adds event with callback to the eventLookup object', () =>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribe('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -33,12 +31,11 @@ describe('event aggregator', () =>{
       });
 
       it('adds multiple callbacks the same event', () =>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribe('dinner', callback);
 
-        var callback2 = function(){};
+        let callback2 = function(){};
         ea.subscribe('dinner', callback2);
 
         expect(ea.eventLookup.dinner.length).toBe(2);
@@ -47,31 +44,30 @@ describe('event aggregator', () =>{
       });
 
       it('removes the callback after execution', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var callback = function(){};
-        var executeMe = ea.subscribe('dinner', callback);
+        let callback = function(){};
+        let subscription = ea.subscribe('dinner', callback);
 
-        var callback2 = function(){};
-        var executeMeToo = ea.subscribe('dinner', callback2);
+        let callback2 = function(){};
+        let subscription2 = ea.subscribe('dinner', callback2);
 
         expect(ea.eventLookup.dinner.length).toBe(2);
         expect(ea.eventLookup.dinner[0]).toBe(callback);
         expect(ea.eventLookup.dinner[1]).toBe(callback2);
 
-        executeMe();
+        subscription.dispose();
 
         expect(ea.eventLookup.dinner.length).toBe(1);
         expect(ea.eventLookup.dinner[0]).toBe(callback2);
 
-        executeMeToo();
+        subscription2.dispose();
         expect(ea.eventLookup.dinner.length).toBe(0);
       });
 
       it('will respond to an event any time it is published', ()=>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribe('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -86,10 +82,9 @@ describe('event aggregator', () =>{
       });
 
       it('will pass published data to the callback function', ()=>{
-        var ea = new EventAggregator();
-
-        var data = null;
-        var callback = function(d){ data = d;};
+        let ea = new EventAggregator();
+        let data = null;
+        let callback = function(d){ data = d;};
         ea.subscribe('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -104,15 +99,14 @@ describe('event aggregator', () =>{
     describe('handler events', () =>{
 
       it('should not remove another handler when execute called twice', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
+        let data = 0;
 
-        var data = 0;
-
-        var executeMe = ea.subscribe(DinnerEvent, function() {});
+        let subscription = ea.subscribe(DinnerEvent, function() {});
         ea.subscribe(AnotherDinnerEvent, function() { data = 1; });
 
-        executeMe();
-        executeMe();
+        subscription.dispose();
+        subscription.dispose();
 
         ea.publish(new AnotherDinnerEvent(""));
 
@@ -120,9 +114,8 @@ describe('event aggregator', () =>{
       });
 
       it('adds handler with messageType and callback to the messageHandlers array', ()=>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribe(DinnerEvent, callback);
 
         expect(ea.messageHandlers.length).toBe(1);
@@ -131,13 +124,12 @@ describe('event aggregator', () =>{
       });
 
       it('removes the handler after execution', () =>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
-        var executeMe = ea.subscribe(DinnerEvent, callback);
+        let ea = new EventAggregator();
+        let callback = function(){};
+        let subscription = ea.subscribe(DinnerEvent, callback);
 
         expect(ea.messageHandlers.length).toBe(1);
-        executeMe();
+        subscription.dispose();
         expect(ea.messageHandlers.length).toBe(0);
       });
 
@@ -150,9 +142,8 @@ describe('event aggregator', () =>{
     describe('string events', () =>{
 
       it('adds event with an anynomous function that will execute the callback to the eventLookup object', ()=>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribeOnce('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -161,12 +152,11 @@ describe('event aggregator', () =>{
       });
 
       it('adds multiple callbacks the same event', () =>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
+        let ea = new EventAggregator();
+        let callback = function(){};
         ea.subscribeOnce('dinner', callback);
 
-        var callback2 = function(){};
+        let callback2 = function(){};
         ea.subscribeOnce('dinner', callback2);
 
         expect(ea.eventLookup.dinner.length).toBe(2);
@@ -177,13 +167,12 @@ describe('event aggregator', () =>{
       });
 
       it('removes the callback after execution', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
+        let callback = function(){};
+        let subscription = ea.subscribeOnce('dinner', callback);
 
-        var callback = function(){};
-        var executeMe = ea.subscribeOnce('dinner', callback);
-
-        var callback2 = function(){};
-        var executeMeToo = ea.subscribeOnce('dinner', callback2);
+        let callback2 = function(){};
+        let subscription2 = ea.subscribeOnce('dinner', callback2);
 
         expect(ea.eventLookup.dinner.length).toBe(2);
         expect(ea.eventLookup.dinner[0] === callback).toBe(false);
@@ -191,21 +180,20 @@ describe('event aggregator', () =>{
         expect(ea.eventLookup.dinner[1] === callback2).toBe(false);
         expect(typeof ea.eventLookup.dinner[1] === "function").toBe(true);
 
-        executeMe();
+        subscription.dispose();
 
         expect(ea.eventLookup.dinner.length).toBe(1);
         expect(typeof ea.eventLookup.dinner[0] === "function").toBe(true);
 
-        executeMeToo();
+        subscription2.dispose();
         expect(ea.eventLookup.dinner.length).toBe(0);
       });
 
       it('will respond to an event only once', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
+        let data = null;
 
-        var data = null;
-
-        var callback = function(){data = "something";};
+        let callback = function(){data = "something";};
         ea.subscribeOnce('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -223,10 +211,10 @@ describe('event aggregator', () =>{
       });
 
       it('will pass published data to the callback function', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var data = null;
-        var callback = function(d){data = d;};
+        let data = null;
+        let callback = function(d){data = d;};
         ea.subscribeOnce('dinner', callback);
 
         expect(ea.eventLookup.dinner.length).toBe(1);
@@ -245,9 +233,9 @@ describe('event aggregator', () =>{
     describe('handler events', () =>{
 
       it('adds handler with messageType and callback to the messageHandlers array', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var callback = function(){};
+        let callback = function(){};
         ea.subscribeOnce(DinnerEvent, callback);
 
         expect(ea.messageHandlers.length).toBe(1);
@@ -258,13 +246,12 @@ describe('event aggregator', () =>{
       });
 
       it('removes the handler after execution', () =>{
-        var ea = new EventAggregator();
-
-        var callback = function(){};
-        var executeMe = ea.subscribeOnce(DinnerEvent, callback);
+        let ea = new EventAggregator();
+        let callback = function(){};
+        let subscription = ea.subscribeOnce(DinnerEvent, callback);
 
         expect(ea.messageHandlers.length).toBe(1);
-        executeMe();
+        subscription.dispose();
         expect(ea.messageHandlers.length).toBe(0);
       });
 
@@ -277,21 +264,21 @@ describe('event aggregator', () =>{
     describe('string events', () =>{
 
       it('calls the callback functions for the event', () =>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someData, someData2;
+        let someData, someData2;
 
-        var callback = function(data){
+        let callback = function(data){
           someData = data;
         };
         ea.subscribe('dinner', callback);
 
-        var callback2 = function(data){
+        let callback2 = function(data){
           someData2 = data;
         };
         ea.subscribe('dinner', callback2);
 
-        var data = {foo: 'bar'};
+        let data = {foo: 'bar'};
         ea.publish('dinner', data);
 
         expect(someData).toBe(data);
@@ -299,11 +286,11 @@ describe('event aggregator', () =>{
       });
 
       it('does not call the callback functions if subscriber does not exist', () =>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someData;
+        let someData;
 
-        var callback = function(data){
+        let callback = function(data){
           someData = data;
         };
         ea.subscribe('dinner', callback);
@@ -314,19 +301,19 @@ describe('event aggregator', () =>{
       });
 
       it('handles errors in subscriber callbacks', () => {
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someMessage;
+        let someMessage;
 
-        var crash = function() {
+        let crash = function() {
           throw new Error('oops');
         }
 
-        var callback = function(message){
+        let callback = function(message){
           someMessage = message;
         };
 
-        var data = {foo: 'bar'};
+        let data = {foo: 'bar'};
 
         ea.subscribe('dinner', crash);
         ea.subscribe('dinner', callback);
@@ -341,32 +328,32 @@ describe('event aggregator', () =>{
     describe('handler events', () =>{
 
       it('calls the callback functions for the event', () =>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someMessage;
+        let someMessage;
 
-        var callback = function(message){
+        let callback = function(message){
           someMessage = message;
         };
         ea.subscribe(DinnerEvent, callback);
 
-        var americanDinner = new DinnerEvent('Cajun chicken');
+        let americanDinner = new DinnerEvent('Cajun chicken');
         ea.publish(americanDinner);
 
         expect(someMessage.message).toBe('Cajun chicken');
 
-        var swedishDinner = new DinnerEvent('Meatballs');
+        let swedishDinner = new DinnerEvent('Meatballs');
         ea.publish(swedishDinner);
 
         expect(someMessage.message).toBe('Meatballs');
       });
 
       it('does not call the callback funtions if message is not an instance of the messageType', ()=>{
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someMessage;
+        let someMessage;
 
-        var callback = function(message){
+        let callback = function(message){
           someMessage = message;
         };
         ea.subscribe(DinnerEvent, callback);
@@ -378,15 +365,15 @@ describe('event aggregator', () =>{
 
 
       it('handles errors in subscriber callbacks', () => {
-        var ea = new EventAggregator();
+        let ea = new EventAggregator();
 
-        var someMessage;
+        let someMessage;
 
-        var crash = function() {
+        let crash = function() {
           throw new Error('oops');
         }
 
-        var callback = function(message){
+        let callback = function(message){
           someMessage = message;
         };
 
