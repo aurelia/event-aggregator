@@ -18,6 +18,6 @@
     "url": "http://github.com/aurelia/event-aggregator"
   },
   "dependencies": {
-    "aurelia-logging": "^0.8.0"
+    "aurelia-logging": "^0.9.0"
   }
 }
