@@ -13,6 +13,9 @@
       "flags": {
         "isExported": true
       },
+      "comment": {
+        "shortText": "Enables loosely coupled publish/subscribe messaging."
+      },
       "children": [
         {
           "id": 15,
@@ -22,6 +25,9 @@
           "flags": {
             "isExported": true
           },
+          "comment": {
+            "shortText": "Creates an instance of the EventAggregator class."
+          },
           "signatures": [
             {
               "id": 16,
@@ -29,6 +35,9 @@
               "kind": 16384,
               "kindString": "Constructor signature",
               "flags": {},
+              "comment": {
+                "shortText": "Creates an instance of the EventAggregator class."
+              },
               "type": {
                 "type": "reference",
                 "name": "EventAggregator",
@@ -53,6 +62,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "Publishes a message."
+              },
               "parameters": [
                 {
                   "id": 19,
@@ -60,6 +72,9 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "text": "The event or channel to publish to."
+                  },
                   "type": {
                     "type": "union",
                     "types": [
@@ -81,6 +96,9 @@
                   "kindString": "Parameter",
                   "flags": {
                     "isOptional": true
+                  },
+                  "comment": {
+                    "text": "The data to publish on the channel.\n"
                   },
                   "type": {
                     "type": "instrinct",
@@ -110,6 +128,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "Subscribes to a message channel or message type."
+              },
               "parameters": [
                 {
                   "id": 23,
@@ -117,6 +138,9 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "text": "The event channel or event data type."
+                  },
                   "type": {
                     "type": "union",
                     "types": [
@@ -137,6 +161,9 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "text": "The callback to be invoked when when the specified message is published.\n"
+                  },
                   "type": {
                     "type": "reference",
                     "name": "Function"
@@ -167,6 +194,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "Subscribes to a message channel or message type, then disposes the subscription automatically after the first message is received."
+              },
               "parameters": [
                 {
                   "id": 27,
@@ -174,6 +204,9 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "text": "The event channel or event data type."
+                  },
                   "type": {
                     "type": "union",
                     "types": [
@@ -194,6 +227,9 @@
                   "kind": 32768,
                   "kindString": "Parameter",
                   "flags": {},
+                  "comment": {
+                    "text": "The callback to be invoked when when the specified message is published.\n"
+                  },
                   "type": {
                     "type": "reference",
                     "name": "Function"
@@ -341,6 +377,9 @@
       "flags": {
         "isExported": true
       },
+      "comment": {
+        "shortText": "Represents a disposable subsciption to an EventAggregator event."
+      },
       "children": [
         {
           "id": 4,
@@ -390,6 +429,9 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
+          "comment": {
+            "shortText": "Configures a global EA by merging functionality into the Aurelia instance."
+          },
           "parameters": [
             {
               "id": 34,
@@ -397,6 +439,9 @@
               "kind": 32768,
               "kindString": "Parameter",
               "flags": {},
+              "comment": {
+                "text": "The Aurelia Framework configuration object used to configure the plugin.\n"
+              },
               "type": {
                 "type": "reference",
                 "name": "Object"
@@ -425,6 +470,9 @@
           "kind": 4096,
           "kindString": "Call signature",
           "flags": {},
+          "comment": {
+            "shortText": "Includes EA functionality into an object instance."
+          },
           "parameters": [
             {
               "id": 31,
@@ -432,6 +480,9 @@
               "kind": 32768,
               "kindString": "Parameter",
               "flags": {},
+              "comment": {
+                "text": "The object to mix Event Aggregator functionality into.\n"
+              },
               "type": {
                 "type": "reference",
                 "name": "Object"

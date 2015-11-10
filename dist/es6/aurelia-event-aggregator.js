@@ -15,16 +15,33 @@ class Handler {
   }
 }
 
+/**
+* Represents a disposable subsciption to an EventAggregator event.
+*/
 interface Subscription {
+  /**
+  * Disposes the subscription.
+  */
   dispose(): void;
 }
 
+/**
+* Enables loosely coupled publish/subscribe messaging.
+*/
 export class EventAggregator {
+  /**
+  * Creates an instance of the EventAggregator class.
+  */
   constructor() {
     this.eventLookup = {};
     this.messageHandlers = [];
   }
 
+  /**
+  * Publishes a message.
+  * @param event The event or channel to publish to.
+  * @param data The data to publish on the channel.
+  */
   publish(event: string | any, data?: any): void {
     let subscribers;
     let i;
@@ -57,6 +74,11 @@ export class EventAggregator {
     }
   }
 
+  /**
+  * Subscribes to a message channel or message type.
+  * @param event The event channel or event data type.
+  * @param callback The callback to be invoked when when the specified message is published.
+  */
   subscribe(event: string | Function, callback: Function): Subscription {
     let handler;
     let subscribers;
@@ -81,6 +103,11 @@ export class EventAggregator {
     };
   }
 
+  /**
+  * Subscribes to a message channel or message type, then disposes the subscription automatically after the first message is received.
+  * @param event The event channel or event data type.
+  * @param callback The callback to be invoked when when the specified message is published.
+  */
   subscribeOnce(event: string | Function, callback: Function): Subscription {
     let sub = this.subscribe(event, (a, b) => {
       sub.dispose();
@@ -91,6 +118,10 @@ export class EventAggregator {
   }
 }
 
+/**
+* Includes EA functionality into an object instance.
+* @param obj The object to mix Event Aggregator functionality into.
+*/
 export function includeEventsIn(obj: Object): EventAggregator {
   let ea = new EventAggregator();
 
@@ -109,6 +140,10 @@ export function includeEventsIn(obj: Object): EventAggregator {
   return ea;
 }
 
+/**
+* Configures a global EA by merging functionality into the Aurelia instance.
+* @param config The Aurelia Framework configuration object used to configure the plugin.
+*/
 export function configure(config: Object): void {
   config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }
