@@ -396,6 +396,9 @@
               "kind": 4096,
               "kindString": "Call signature",
               "flags": {},
+              "comment": {
+                "shortText": "Disposes the subscription."
+              },
               "type": {
                 "type": "instrinct",
                 "name": "void"

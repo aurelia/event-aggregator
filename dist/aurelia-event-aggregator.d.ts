@@ -5,6 +5,10 @@ declare module 'aurelia-event-aggregator' {
   * Represents a disposable subsciption to an EventAggregator event.
   */
   export interface Subscription {
+    
+    /**
+      * Disposes the subscription.
+      */
     dispose(): void;
   }
   class Handler {
