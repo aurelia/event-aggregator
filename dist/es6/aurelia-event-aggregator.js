@@ -1,149 +1,101 @@
 import * as LogManager from 'aurelia-logging';
-
 const logger = LogManager.getLogger('event-aggregator');
-
 class Handler {
-  constructor(messageType, callback) {
-    this.messageType = messageType;
-    this.callback = callback;
-  }
-
-  handle(message) {
-    if (message instanceof this.messageType) {
-      this.callback.call(null, message);
+    constructor(messageType, callback) {
+        this.messageType = messageType;
+        this.callback = callback;
     }
-  }
+    handle(message) {
+        if (message instanceof this.messageType) {
+            this.callback.call(null, message);
+        }
+    }
 }
-
-/**
-* Represents a disposable subsciption to an EventAggregator event.
-*/
-interface Subscription {
-  /**
-  * Disposes the subscription.
-  */
-  dispose(): void;
-}
-
 /**
 * Enables loosely coupled publish/subscribe messaging.
 */
 export class EventAggregator {
-  /**
-  * Creates an instance of the EventAggregator class.
-  */
-  constructor() {
-    this.eventLookup = {};
-    this.messageHandlers = [];
-  }
-
-  /**
-  * Publishes a message.
-  * @param event The event or channel to publish to.
-  * @param data The data to publish on the channel.
-  */
-  publish(event: string | any, data?: any): void {
-    let subscribers;
-    let i;
-
-    if (typeof event === 'string') {
-      subscribers = this.eventLookup[event];
-      if (subscribers) {
-        subscribers = subscribers.slice();
-        i = subscribers.length;
-
-        try {
-          while (i--) {
-            subscribers[i](data, event);
-          }
-        } catch (e) {
-          logger.error(e);
-        }
-      }
-    } else {
-      subscribers = this.messageHandlers.slice();
-      i = subscribers.length;
-
-      try {
-        while (i--) {
-          subscribers[i].handle(event);
-        }
-      } catch (e) {
-        logger.error(e);
-      }
+    constructor() {
+        this.eventLookup = {};
+        this.messageHandlers = [];
     }
-  }
-
-  /**
-  * Subscribes to a message channel or message type.
-  * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
-  */
-  subscribe(event: string | Function, callback: Function): Subscription {
-    let handler;
-    let subscribers;
-
-    if (typeof event === 'string') {
-      handler = callback;
-      subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
-    } else {
-      handler = new Handler(event, callback);
-      subscribers = this.messageHandlers;
-    }
-
-    subscribers.push(handler);
-
-    return {
-      dispose() {
-        let idx = subscribers.indexOf(handler);
-        if (idx !== -1) {
-          subscribers.splice(idx, 1);
+    publish(event, data) {
+        let subscribers;
+        let i;
+        if (typeof event === 'string') {
+            subscribers = this.eventLookup[event];
+            if (subscribers) {
+                subscribers = subscribers.slice();
+                i = subscribers.length;
+                try {
+                    while (i--) {
+                        subscribers[i](data, event);
+                    }
+                }
+                catch (e) {
+                    logger.error(e);
+                }
+            }
         }
-      }
-    };
-  }
-
-  /**
-  * Subscribes to a message channel or message type, then disposes the subscription automatically after the first message is received.
-  * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
-  */
-  subscribeOnce(event: string | Function, callback: Function): Subscription {
-    let sub = this.subscribe(event, (a, b) => {
-      sub.dispose();
-      return callback(a, b);
-    });
-
-    return sub;
-  }
+        else {
+            subscribers = this.messageHandlers.slice();
+            i = subscribers.length;
+            try {
+                while (i--) {
+                    subscribers[i].handle(event);
+                }
+            }
+            catch (e) {
+                logger.error(e);
+            }
+        }
+    }
+    subscribe(event, callback) {
+        let handler;
+        let subscribers;
+        if (typeof event === 'string') {
+            handler = callback;
+            subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
+        }
+        else {
+            handler = new Handler(event, callback);
+            subscribers = this.messageHandlers;
+        }
+        subscribers.push(handler);
+        return {
+            dispose() {
+                let idx = subscribers.indexOf(handler);
+                if (idx !== -1) {
+                    subscribers.splice(idx, 1);
+                }
+            }
+        };
+    }
+    subscribeOnce(event, callback) {
+        let sub = this.subscribe(event, (a, b) => {
+            sub.dispose();
+            return callback(a, b);
+        });
+        return sub;
+    }
 }
-
 /**
-* Includes EA functionality into an object instance.
+* Includes Event Aggregator functionality into an object instance.
 * @param obj The object to mix Event Aggregator functionality into.
 */
-export function includeEventsIn(obj: Object): EventAggregator {
-  let ea = new EventAggregator();
-
-  obj.subscribeOnce = function(event, callback) {
-    return ea.subscribeOnce(event, callback);
-  };
-
-  obj.subscribe = function(event, callback) {
-    return ea.subscribe(event, callback);
-  };
-
-  obj.publish = function(event, data) {
-    ea.publish(event, data);
-  };
-
-  return ea;
+export function includeEventsIn(obj) {
+    let ea = new EventAggregator();
+    obj.subscribeOnce = (event, callback) => ea.subscribeOnce(event, callback);
+    obj.subscribe = (event, callback) => ea.subscribe(event, callback);
+    obj.publish = (event, data) => ea.publish(event, data);
+    return ea;
 }
-
 /**
-* Configures a global EA by merging functionality into the Aurelia instance.
+* Configures a global Event Aggregator by merging functionality into the Aurelia instance.
 * @param config The Aurelia Framework configuration object used to configure the plugin.
 */
-export function configure(config: Object): void {
-  config.instance(EventAggregator, includeEventsIn(config.aurelia));
+export function configure(config) {
+    config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImF1cmVsaWEtZXZlbnQtYWdncmVnYXRvci50cyJdLCJuYW1lcyI6WyJIYW5kbGVyIiwiSGFuZGxlci5jb25zdHJ1Y3RvciIsIkhhbmRsZXIuaGFuZGxlIiwiRXZlbnRBZ2dyZWdhdG9yIiwiRXZlbnRBZ2dyZWdhdG9yLmNvbnN0cnVjdG9yIiwiRXZlbnRBZ2dyZWdhdG9yLnB1Ymxpc2giLCJFdmVudEFnZ3JlZ2F0b3Iuc3Vic2NyaWJlIiwiRXZlbnRBZ2dyZWdhdG9yLnN1YnNjcmliZS5kaXNwb3NlIiwiRXZlbnRBZ2dyZWdhdG9yLnN1YnNjcmliZU9uY2UiLCJpbmNsdWRlRXZlbnRzSW4iLCJjb25maWd1cmUiXSwibWFwcGluZ3MiOiJPQUFPLEtBQUssVUFBVSxNQUFNLGlCQUFpQjtBQUU3QyxNQUFNLE1BQU0sR0FBRyxVQUFVLENBQUMsU0FBUyxDQUFDLGtCQUFrQixDQUFDLENBQUM7QUFFeEQ7SUFDRUEsWUFBb0JBLFdBQWdCQSxFQUFVQSxRQUFnQ0E7UUFBMURDLGdCQUFXQSxHQUFYQSxXQUFXQSxDQUFLQTtRQUFVQSxhQUFRQSxHQUFSQSxRQUFRQSxDQUF3QkE7SUFDOUVBLENBQUNBO0lBRURELE1BQU1BLENBQUNBLE9BQVlBO1FBQ2pCRSxFQUFFQSxDQUFDQSxDQUFDQSxPQUFPQSxZQUFZQSxJQUFJQSxDQUFDQSxXQUFXQSxDQUFDQSxDQUFDQSxDQUFDQTtZQUN4Q0EsSUFBSUEsQ0FBQ0EsUUFBUUEsQ0FBQ0EsSUFBSUEsQ0FBQ0EsSUFBSUEsRUFBRUEsT0FBT0EsQ0FBQ0EsQ0FBQ0E7UUFDcENBLENBQUNBO0lBQ0hBLENBQUNBO0FBQ0hGLENBQUNBO0FBWUQ7O0VBRUU7QUFDRjtJQUFBRztRQUNVQyxnQkFBV0EsR0FBUUEsRUFBRUEsQ0FBQ0E7UUFDdEJBLG9CQUFlQSxHQUFjQSxFQUFFQSxDQUFDQTtJQXFHMUNBLENBQUNBO0lBeEZDRCxPQUFPQSxDQUFDQSxLQUFVQSxFQUFFQSxJQUFVQTtRQUM1QkUsSUFBSUEsV0FBa0JBLENBQUNBO1FBQ3ZC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
