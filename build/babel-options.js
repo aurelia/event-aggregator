@@ -21,7 +21,7 @@ module.exports = {
     "es7.classProperties"
   ],
   plugins: [
-    "babel-dts-generator"
+    //"babel-dts-generator"
   ],
   extra: {
     dts: {
