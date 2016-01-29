@@ -1,3 +1,11 @@
+### 1.0.0-beta.1.1.0 (2016-01-29)
+
+
+#### Features
+
+* **all:** update jspm meta; core-js; aurelia deps ([05e6674d](http://github.com/aurelia/event-aggregator/commit/05e6674d13d393e6813dda656a8e79ba75b85aa8))
+
+
 ### 1.0.0-beta.1 (2015-11-16)
 
 
