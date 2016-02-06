@@ -46,6 +46,10 @@ export class EventAggregator {
     let subscribers;
     let i;
 
+    if (!event) {
+      throw new Error('Event was invalid.');
+    }
+
     if (typeof event === 'string') {
       subscribers = this.eventLookup[event];
       if (subscribers) {
@@ -82,6 +86,10 @@ export class EventAggregator {
   subscribe(event: string | Function, callback: Function): Subscription {
     let handler;
     let subscribers;
+
+    if (!event) {
+      throw new Error('Event channel/type was invalid.');
+    }
 
     if (typeof event === 'string') {
       handler = callback;
