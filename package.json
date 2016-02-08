@@ -30,13 +30,16 @@
     "peerDependencies": {
       "aurelia-logging": "^1.0.0-beta.1.1.1"
     },
+    "dependencies": {
+      "aurelia-logging": "^1.0.0-beta.1.1.1"
+    },
     "devDependencies": {
       "babel": "babel-core@^5.1.13",
       "babel-runtime": "^5.1.13",
       "core-js": "^2.0.3"
     }
   },
-  "peerDependencies": {
+  "dependencies": {
     "aurelia-logging": "^1.0.0-beta.1.1.1"
   },
   "devDependencies": {
