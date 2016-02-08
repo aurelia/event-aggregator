@@ -67,6 +67,10 @@ System.register(['aurelia-logging'], function (_export) {
           var subscribers = undefined;
           var i = undefined;
 
+          if (!event) {
+            throw new Error('Event was invalid.');
+          }
+
           if (typeof event === 'string') {
             subscribers = this.eventLookup[event];
             if (subscribers) {
@@ -98,6 +102,10 @@ System.register(['aurelia-logging'], function (_export) {
         EventAggregator.prototype.subscribe = function subscribe(event, callback) {
           var handler = undefined;
           var subscribers = undefined;
+
+          if (!event) {
+            throw new Error('Event channel/type was invalid.');
+          }
 
           if (typeof event === 'string') {
             handler = callback;

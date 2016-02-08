@@ -1,3 +1,11 @@
+### 1.0.0-beta.1.1.1 (2016-02-08)
+
+
+#### Bug Fixes
+
+* **index:** add some error checking to guard args ([e1661a00](http://github.com/aurelia/event-aggregator/commit/e1661a00ff9894891a59cd8dfd3f5d83964de158), closes [#15](http://github.com/aurelia/event-aggregator/issues/15))
+
+
 ### 1.0.0-beta.1.1.0 (2016-01-29)
 
 

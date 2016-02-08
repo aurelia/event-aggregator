@@ -43,6 +43,10 @@ var EventAggregator = (function () {
     var subscribers = undefined;
     var i = undefined;
 
+    if (!event) {
+      throw new Error('Event was invalid.');
+    }
+
     if (typeof event === 'string') {
       subscribers = this.eventLookup[event];
       if (subscribers) {
@@ -74,6 +78,10 @@ var EventAggregator = (function () {
   EventAggregator.prototype.subscribe = function subscribe(event, callback) {
     var handler = undefined;
     var subscribers = undefined;
+
+    if (!event) {
+      throw new Error('Event channel/type was invalid.');
+    }
 
     if (typeof event === 'string') {
       handler = callback;
