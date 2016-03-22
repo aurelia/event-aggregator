@@ -1,15 +1,41 @@
 define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
   'use strict';
 
-  exports.__esModule = true;
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.EventAggregator = undefined;
   exports.includeEventsIn = includeEventsIn;
   exports.configure = configure;
 
-  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+  var LogManager = _interopRequireWildcard(_aureliaLogging);
 
-  var logger = _aureliaLogging.getLogger('event-aggregator');
+  function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+      return obj;
+    } else {
+      var newObj = {};
 
-  var Handler = (function () {
+      if (obj != null) {
+        for (var key in obj) {
+          if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+        }
+      }
+
+      newObj.default = obj;
+      return newObj;
+    }
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var logger = LogManager.getLogger('event-aggregator');
+
+  var Handler = function () {
     function Handler(messageType, callback) {
       _classCallCheck(this, Handler);
 
@@ -24,9 +50,9 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     };
 
     return Handler;
-  })();
+  }();
 
-  var EventAggregator = (function () {
+  var EventAggregator = exports.EventAggregator = function () {
     function EventAggregator() {
       _classCallCheck(this, EventAggregator);
 
@@ -35,8 +61,8 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     }
 
     EventAggregator.prototype.publish = function publish(event, data) {
-      var subscribers = undefined;
-      var i = undefined;
+      var subscribers = void 0;
+      var i = void 0;
 
       if (!event) {
         throw new Error('Event was invalid.');
@@ -71,8 +97,8 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     };
 
     EventAggregator.prototype.subscribe = function subscribe(event, callback) {
-      var handler = undefined;
-      var subscribers = undefined;
+      var handler = void 0;
+      var subscribers = void 0;
 
       if (!event) {
         throw new Error('Event channel/type was invalid.');
@@ -108,9 +134,7 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     };
 
     return EventAggregator;
-  })();
-
-  exports.EventAggregator = EventAggregator;
+  }();
 
   function includeEventsIn(obj) {
     var ea = new EventAggregator();

@@ -6,7 +6,7 @@
   "flags": {},
   "children": [
     {
-      "id": 14,
+      "id": 6,
       "name": "EventAggregator",
       "kind": 128,
       "kindString": "Class",
@@ -18,7 +18,7 @@
       },
       "children": [
         {
-          "id": 15,
+          "id": 7,
           "name": "constructor",
           "kind": 512,
           "kindString": "Constructor",
@@ -30,7 +30,7 @@
           },
           "signatures": [
             {
-              "id": 16,
+              "id": 8,
               "name": "new EventAggregator",
               "kind": 16384,
               "kindString": "Constructor signature",
@@ -41,14 +41,14 @@
               "type": {
                 "type": "reference",
                 "name": "EventAggregator",
-                "id": 14,
+                "id": 6,
                 "moduleName": "\"aurelia-event-aggregator\""
               }
             }
           ]
         },
         {
-          "id": 17,
+          "id": 9,
           "name": "publish",
           "kind": 2048,
           "kindString": "Method",
@@ -57,7 +57,7 @@
           },
           "signatures": [
             {
-              "id": 18,
+              "id": 10,
               "name": "publish",
               "kind": 4096,
               "kindString": "Call signature",
@@ -67,7 +67,7 @@
               },
               "parameters": [
                 {
-                  "id": 19,
+                  "id": 11,
                   "name": "event",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -90,7 +90,7 @@
                   }
                 },
                 {
-                  "id": 20,
+                  "id": 12,
                   "name": "data",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -114,7 +114,7 @@
           ]
         },
         {
-          "id": 21,
+          "id": 13,
           "name": "subscribe",
           "kind": 2048,
           "kindString": "Method",
@@ -123,7 +123,7 @@
           },
           "signatures": [
             {
-              "id": 22,
+              "id": 14,
               "name": "subscribe",
               "kind": 4096,
               "kindString": "Call signature",
@@ -133,7 +133,7 @@
               },
               "parameters": [
                 {
-                  "id": 23,
+                  "id": 15,
                   "name": "event",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -156,7 +156,7 @@
                   }
                 },
                 {
-                  "id": 24,
+                  "id": 16,
                   "name": "callback",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -180,7 +180,7 @@
           ]
         },
         {
-          "id": 25,
+          "id": 17,
           "name": "subscribeOnce",
           "kind": 2048,
           "kindString": "Method",
@@ -189,7 +189,7 @@
           },
           "signatures": [
             {
-              "id": 26,
+              "id": 18,
               "name": "subscribeOnce",
               "kind": 4096,
               "kindString": "Call signature",
@@ -199,7 +199,7 @@
               },
               "parameters": [
                 {
-                  "id": 27,
+                  "id": 19,
                   "name": "event",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -222,7 +222,7 @@
                   }
                 },
                 {
-                  "id": 28,
+                  "id": 20,
                   "name": "callback",
                   "kind": 32768,
                   "kindString": "Parameter",
@@ -241,112 +241,6 @@
                 "name": "Subscription",
                 "id": 3,
                 "moduleName": "\"aurelia-event-aggregator\""
-              }
-            }
-          ]
-        }
-      ],
-      "groups": [
-        {
-          "title": "Constructors",
-          "kind": 512,
-          "children": [
-            15
-          ]
-        },
-        {
-          "title": "Methods",
-          "kind": 2048,
-          "children": [
-            17,
-            21,
-            25
-          ]
-        }
-      ]
-    },
-    {
-      "id": 6,
-      "name": "Handler",
-      "kind": 128,
-      "kindString": "Class",
-      "flags": {},
-      "children": [
-        {
-          "id": 7,
-          "name": "constructor",
-          "kind": 512,
-          "kindString": "Constructor",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 8,
-              "name": "new Handler",
-              "kind": 16384,
-              "kindString": "Constructor signature",
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 9,
-                  "name": "messageType",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "instrinct",
-                    "name": "any"
-                  }
-                },
-                {
-                  "id": 10,
-                  "name": "callback",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "instrinct",
-                    "name": "any"
-                  }
-                }
-              ],
-              "type": {
-                "type": "reference",
-                "name": "Handler",
-                "id": 6,
-                "moduleName": "\"aurelia-event-aggregator\""
-              }
-            }
-          ]
-        },
-        {
-          "id": 11,
-          "name": "handle",
-          "kind": 2048,
-          "kindString": "Method",
-          "flags": {},
-          "signatures": [
-            {
-              "id": 12,
-              "name": "handle",
-              "kind": 4096,
-              "kindString": "Call signature",
-              "flags": {},
-              "parameters": [
-                {
-                  "id": 13,
-                  "name": "message",
-                  "kind": 32768,
-                  "kindString": "Parameter",
-                  "flags": {},
-                  "type": {
-                    "type": "instrinct",
-                    "name": "any"
-                  }
-                }
-              ],
-              "type": {
-                "type": "instrinct",
-                "name": "any"
               }
             }
           ]
@@ -364,7 +258,9 @@
           "title": "Methods",
           "kind": 2048,
           "children": [
-            11
+            9,
+            13,
+            17
           ]
         }
       ]
@@ -418,7 +314,7 @@
       ]
     },
     {
-      "id": 32,
+      "id": 24,
       "name": "configure",
       "kind": 64,
       "kindString": "Function",
@@ -427,7 +323,7 @@
       },
       "signatures": [
         {
-          "id": 33,
+          "id": 25,
           "name": "configure",
           "kind": 4096,
           "kindString": "Call signature",
@@ -437,7 +333,7 @@
           },
           "parameters": [
             {
-              "id": 34,
+              "id": 26,
               "name": "config",
               "kind": 32768,
               "kindString": "Parameter",
@@ -459,7 +355,7 @@
       ]
     },
     {
-      "id": 29,
+      "id": 21,
       "name": "includeEventsIn",
       "kind": 64,
       "kindString": "Function",
@@ -468,7 +364,7 @@
       },
       "signatures": [
         {
-          "id": 30,
+          "id": 22,
           "name": "includeEventsIn",
           "kind": 4096,
           "kindString": "Call signature",
@@ -478,7 +374,7 @@
           },
           "parameters": [
             {
-              "id": 31,
+              "id": 23,
               "name": "obj",
               "kind": 32768,
               "kindString": "Parameter",
@@ -495,7 +391,7 @@
           "type": {
             "type": "reference",
             "name": "EventAggregator",
-            "id": 14,
+            "id": 6,
             "moduleName": "\"aurelia-event-aggregator\""
           }
         }
@@ -507,7 +403,6 @@
       "title": "Classes",
       "kind": 128,
       "children": [
-        14,
         6
       ]
     },
@@ -522,8 +417,8 @@
       "title": "Functions",
       "kind": 64,
       "children": [
-        32,
-        29
+        24,
+        21
       ]
     }
   ]

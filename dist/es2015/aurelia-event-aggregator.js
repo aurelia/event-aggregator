@@ -2,7 +2,7 @@ import * as LogManager from 'aurelia-logging';
 
 const logger = LogManager.getLogger('event-aggregator');
 
-class Handler {
+let Handler = class Handler {
   constructor(messageType, callback) {
     this.messageType = messageType;
     this.callback = callback;
@@ -13,36 +13,15 @@ class Handler {
       this.callback.call(null, message);
     }
   }
-}
+};
 
-/**
-* Represents a disposable subsciption to an EventAggregator event.
-*/
-interface Subscription {
-  /**
-  * Disposes the subscription.
-  */
-  dispose(): void;
-}
-
-/**
-* Enables loosely coupled publish/subscribe messaging.
-*/
-export class EventAggregator {
-  /**
-  * Creates an instance of the EventAggregator class.
-  */
+export let EventAggregator = class EventAggregator {
   constructor() {
     this.eventLookup = {};
     this.messageHandlers = [];
   }
 
-  /**
-  * Publishes a message.
-  * @param event The event or channel to publish to.
-  * @param data The data to publish on the channel.
-  */
-  publish(event: string | any, data?: any): void {
+  publish(event, data) {
     let subscribers;
     let i;
 
@@ -78,12 +57,7 @@ export class EventAggregator {
     }
   }
 
-  /**
-  * Subscribes to a message channel or message type.
-  * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
-  */
-  subscribe(event: string | Function, callback: Function): Subscription {
+  subscribe(event, callback) {
     let handler;
     let subscribers;
 
@@ -111,12 +85,7 @@ export class EventAggregator {
     };
   }
 
-  /**
-  * Subscribes to a message channel or message type, then disposes the subscription automatically after the first message is received.
-  * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
-  */
-  subscribeOnce(event: string | Function, callback: Function): Subscription {
+  subscribeOnce(event, callback) {
     let sub = this.subscribe(event, (a, b) => {
       sub.dispose();
       return callback(a, b);
@@ -124,34 +93,26 @@ export class EventAggregator {
 
     return sub;
   }
-}
+};
 
-/**
-* Includes EA functionality into an object instance.
-* @param obj The object to mix Event Aggregator functionality into.
-*/
-export function includeEventsIn(obj: Object): EventAggregator {
+export function includeEventsIn(obj) {
   let ea = new EventAggregator();
 
-  obj.subscribeOnce = function(event, callback) {
+  obj.subscribeOnce = function (event, callback) {
     return ea.subscribeOnce(event, callback);
   };
 
-  obj.subscribe = function(event, callback) {
+  obj.subscribe = function (event, callback) {
     return ea.subscribe(event, callback);
   };
 
-  obj.publish = function(event, data) {
+  obj.publish = function (event, data) {
     ea.publish(event, data);
   };
 
   return ea;
 }
 
-/**
-* Configures a global EA by merging functionality into the Aurelia instance.
-* @param config The Aurelia Framework configuration object used to configure the plugin.
-*/
-export function configure(config: Object): void {
+export function configure(config) {
   config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }

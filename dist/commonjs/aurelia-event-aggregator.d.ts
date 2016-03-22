@@ -11,11 +11,10 @@ declare module 'aurelia-event-aggregator' {
       */
     dispose(): void;
   }
-  class Handler {
-    constructor(messageType: any, callback: any);
-    handle(message: any): any;
-  }
   
+  /**
+  * Enables loosely coupled publish/subscribe messaging.
+  */
   /**
   * Enables loosely coupled publish/subscribe messaging.
   */

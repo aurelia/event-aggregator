@@ -1,20 +1,23 @@
 'use strict';
 
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EventAggregator = undefined;
 exports.includeEventsIn = includeEventsIn;
 exports.configure = configure;
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _aureliaLogging = require('aurelia-logging');
 
 var LogManager = _interopRequireWildcard(_aureliaLogging);
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var logger = LogManager.getLogger('event-aggregator');
 
-var Handler = (function () {
+var Handler = function () {
   function Handler(messageType, callback) {
     _classCallCheck(this, Handler);
 
@@ -29,9 +32,9 @@ var Handler = (function () {
   };
 
   return Handler;
-})();
+}();
 
-var EventAggregator = (function () {
+var EventAggregator = exports.EventAggregator = function () {
   function EventAggregator() {
     _classCallCheck(this, EventAggregator);
 
@@ -40,8 +43,8 @@ var EventAggregator = (function () {
   }
 
   EventAggregator.prototype.publish = function publish(event, data) {
-    var subscribers = undefined;
-    var i = undefined;
+    var subscribers = void 0;
+    var i = void 0;
 
     if (!event) {
       throw new Error('Event was invalid.');
@@ -76,8 +79,8 @@ var EventAggregator = (function () {
   };
 
   EventAggregator.prototype.subscribe = function subscribe(event, callback) {
-    var handler = undefined;
-    var subscribers = undefined;
+    var handler = void 0;
+    var subscribers = void 0;
 
     if (!event) {
       throw new Error('Event channel/type was invalid.');
@@ -113,9 +116,7 @@ var EventAggregator = (function () {
   };
 
   return EventAggregator;
-})();
-
-exports.EventAggregator = EventAggregator;
+}();
 
 function includeEventsIn(obj) {
   var ea = new EventAggregator();
