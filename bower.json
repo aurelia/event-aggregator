@@ -9,6 +9,8 @@
     "pub/sub"
   ],
   "homepage": "http://aurelia.io",
+  "main": "dist/commonjs/aurelia-event-aggregator.js",
+  "moduleType": "node",
   "license": "MIT",
   "authors": [
     "Rob Eisenberg <rob@bluespire.com> (http://robeisenberg.com/)"
