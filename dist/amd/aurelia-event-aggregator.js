@@ -27,17 +27,13 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     }
   }
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   var logger = LogManager.getLogger('event-aggregator');
 
   var Handler = function () {
     function Handler(messageType, callback) {
-      _classCallCheck(this, Handler);
+      
 
       this.messageType = messageType;
       this.callback = callback;
@@ -54,7 +50,7 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
 
   var EventAggregator = exports.EventAggregator = function () {
     function EventAggregator() {
-      _classCallCheck(this, EventAggregator);
+      
 
       this.eventLookup = {};
       this.messageHandlers = [];

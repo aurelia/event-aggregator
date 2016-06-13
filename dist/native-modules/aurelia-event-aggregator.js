@@ -1,19 +1,6 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.EventAggregator = undefined;
-exports.includeEventsIn = includeEventsIn;
-exports.configure = configure;
-
-var _aureliaLogging = require('aurelia-logging');
-
-var LogManager = _interopRequireWildcard(_aureliaLogging);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 
+import * as LogManager from 'aurelia-logging';
 
 var logger = LogManager.getLogger('event-aggregator');
 
@@ -34,7 +21,7 @@ var Handler = function () {
   return Handler;
 }();
 
-var EventAggregator = exports.EventAggregator = function () {
+export var EventAggregator = function () {
   function EventAggregator() {
     
 
@@ -118,7 +105,7 @@ var EventAggregator = exports.EventAggregator = function () {
   return EventAggregator;
 }();
 
-function includeEventsIn(obj) {
+export function includeEventsIn(obj) {
   var ea = new EventAggregator();
 
   obj.subscribeOnce = function (event, callback) {
@@ -136,6 +123,6 @@ function includeEventsIn(obj) {
   return ea;
 }
 
-function configure(config) {
+export function configure(config) {
   config.instance(EventAggregator, includeEventsIn(config.aurelia));
 }

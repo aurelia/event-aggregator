@@ -1,13 +1,11 @@
 'use strict';
 
 System.register(['aurelia-logging'], function (_export, _context) {
+  "use strict";
+
   var LogManager, logger, Handler, EventAggregator;
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
+  
 
   return {
     setters: [function (_aureliaLogging) {
@@ -18,7 +16,7 @@ System.register(['aurelia-logging'], function (_export, _context) {
 
       Handler = function () {
         function Handler(messageType, callback) {
-          _classCallCheck(this, Handler);
+          
 
           this.messageType = messageType;
           this.callback = callback;
@@ -35,7 +33,7 @@ System.register(['aurelia-logging'], function (_export, _context) {
 
       _export('EventAggregator', EventAggregator = function () {
         function EventAggregator() {
-          _classCallCheck(this, EventAggregator);
+          
 
           this.eventLookup = {};
           this.messageHandlers = [];
