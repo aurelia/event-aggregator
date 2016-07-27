@@ -7,6 +7,32 @@ System.register(['aurelia-logging'], function (_export, _context) {
 
   
 
+  function includeEventsIn(obj) {
+    var ea = new EventAggregator();
+
+    obj.subscribeOnce = function (event, callback) {
+      return ea.subscribeOnce(event, callback);
+    };
+
+    obj.subscribe = function (event, callback) {
+      return ea.subscribe(event, callback);
+    };
+
+    obj.publish = function (event, data) {
+      ea.publish(event, data);
+    };
+
+    return ea;
+  }
+
+  _export('includeEventsIn', includeEventsIn);
+
+  function configure(config) {
+    config.instance(EventAggregator, includeEventsIn(config.aurelia));
+  }
+
+  _export('configure', configure);
+
   return {
     setters: [function (_aureliaLogging) {
       LogManager = _aureliaLogging;
@@ -116,32 +142,6 @@ System.register(['aurelia-logging'], function (_export, _context) {
       }());
 
       _export('EventAggregator', EventAggregator);
-
-      function includeEventsIn(obj) {
-        var ea = new EventAggregator();
-
-        obj.subscribeOnce = function (event, callback) {
-          return ea.subscribeOnce(event, callback);
-        };
-
-        obj.subscribe = function (event, callback) {
-          return ea.subscribe(event, callback);
-        };
-
-        obj.publish = function (event, data) {
-          ea.publish(event, data);
-        };
-
-        return ea;
-      }
-
-      _export('includeEventsIn', includeEventsIn);
-
-      function configure(config) {
-        config.instance(EventAggregator, includeEventsIn(config.aurelia));
-      }
-
-      _export('configure', configure);
     }
   };
 });

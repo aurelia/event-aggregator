@@ -5,7 +5,7 @@ define(['exports', './aurelia-event-aggregator'], function (exports, _aureliaEve
     value: true
   });
   Object.keys(_aureliaEventAggregator).forEach(function (key) {
-    if (key === "default") return;
+    if (key === "default" || key === "__esModule") return;
     Object.defineProperty(exports, key, {
       enumerable: true,
       get: function () {
