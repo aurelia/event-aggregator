@@ -15,6 +15,22 @@ class Handler {
   }
 }
 
+function invokeCallback(callback, data, event) {
+  try {
+    callback(data, event);
+  } catch (e) {
+    logger.error(e);
+  }
+}
+
+function invokeHandler(handler, data) {
+  try {
+    handler.handle(data);
+  } catch (e) {
+    logger.error(e);
+  }
+}
+
 /**
 * Represents a disposable subsciption to an EventAggregator event.
 */
@@ -57,11 +73,7 @@ export class EventAggregator {
         i = subscribers.length;
 
         while (i--) {
-          try {
-            subscribers[i](data, event);
-          } catch (e) {
-            logger.error(e);
-          }
+          invokeCallback(subscribers[i], data, event);
         }
       }
     } else {
@@ -69,11 +81,7 @@ export class EventAggregator {
       i = subscribers.length;
 
       while (i--) {
-        try {
-          subscribers[i].handle(event);
-        } catch (e) {
-          logger.error(e);
-        }
+        invokeHandler(subscribers[i], event);
       }
     }
   }
