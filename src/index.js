@@ -56,24 +56,24 @@ export class EventAggregator {
         subscribers = subscribers.slice();
         i = subscribers.length;
 
-        try {
-          while (i--) {
+        while (i--) {
+          try {
             subscribers[i](data, event);
+          } catch (e) {
+            logger.error(e);
           }
-        } catch (e) {
-          logger.error(e);
         }
       }
     } else {
       subscribers = this.messageHandlers.slice();
       i = subscribers.length;
 
-      try {
-        while (i--) {
+      while (i--) {
+        try {
           subscribers[i].handle(event);
+        } catch (e) {
+          logger.error(e);
         }
-      } catch (e) {
-        logger.error(e);
       }
     }
   }
