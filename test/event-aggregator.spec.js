@@ -317,6 +317,7 @@ describe('event aggregator', () => {
 
         ea.subscribe('dinner', crash);
         ea.subscribe('dinner', callback);
+        ea.subscribe('dinner', crash);
 
         ea.publish('dinner', data);
 
