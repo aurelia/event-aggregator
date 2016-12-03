@@ -48,6 +48,22 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
     return Handler;
   }();
 
+  function invokeCallback(callback, data, event) {
+    try {
+      callback(data, event);
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
+  function invokeHandler(handler, data) {
+    try {
+      handler.handle(data);
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
   var EventAggregator = exports.EventAggregator = function () {
     function EventAggregator() {
       
@@ -70,24 +86,16 @@ define(['exports', 'aurelia-logging'], function (exports, _aureliaLogging) {
           subscribers = subscribers.slice();
           i = subscribers.length;
 
-          try {
-            while (i--) {
-              subscribers[i](data, event);
-            }
-          } catch (e) {
-            logger.error(e);
+          while (i--) {
+            invokeCallback(subscribers[i], data, event);
           }
         }
       } else {
         subscribers = this.messageHandlers.slice();
         i = subscribers.length;
 
-        try {
-          while (i--) {
-            subscribers[i].handle(event);
-          }
-        } catch (e) {
-          logger.error(e);
+        while (i--) {
+          invokeHandler(subscribers[i], event);
         }
       }
     };

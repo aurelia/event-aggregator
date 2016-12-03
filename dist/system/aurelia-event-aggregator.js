@@ -7,6 +7,22 @@ System.register(['aurelia-logging'], function (_export, _context) {
 
   
 
+  function invokeCallback(callback, data, event) {
+    try {
+      callback(data, event);
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
+  function invokeHandler(handler, data) {
+    try {
+      handler.handle(data);
+    } catch (e) {
+      logger.error(e);
+    }
+  }
+
   function includeEventsIn(obj) {
     var ea = new EventAggregator();
 
@@ -79,24 +95,16 @@ System.register(['aurelia-logging'], function (_export, _context) {
               subscribers = subscribers.slice();
               i = subscribers.length;
 
-              try {
-                while (i--) {
-                  subscribers[i](data, event);
-                }
-              } catch (e) {
-                logger.error(e);
+              while (i--) {
+                invokeCallback(subscribers[i], data, event);
               }
             }
           } else {
             subscribers = this.messageHandlers.slice();
             i = subscribers.length;
 
-            try {
-              while (i--) {
-                subscribers[i].handle(event);
-              }
-            } catch (e) {
-              logger.error(e);
+            while (i--) {
+              invokeHandler(subscribers[i], event);
             }
           }
         };

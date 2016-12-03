@@ -1,3 +1,13 @@
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/aurelia/event-aggregator/compare/1.0.0...v1.0.1) (2016-12-03)
+
+
+### Bug Fixes
+
+* **index:** handle errors per callback invocation ([dc7819f](https://github.com/aurelia/event-aggregator/commit/dc7819f))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/aurelia/event-aggregator/compare/1.0.0-rc.1.0.0...v1.0.0) (2016-07-27)
 

@@ -21,6 +21,22 @@ var Handler = function () {
   return Handler;
 }();
 
+function invokeCallback(callback, data, event) {
+  try {
+    callback(data, event);
+  } catch (e) {
+    logger.error(e);
+  }
+}
+
+function invokeHandler(handler, data) {
+  try {
+    handler.handle(data);
+  } catch (e) {
+    logger.error(e);
+  }
+}
+
 export var EventAggregator = function () {
   function EventAggregator() {
     
@@ -43,24 +59,16 @@ export var EventAggregator = function () {
         subscribers = subscribers.slice();
         i = subscribers.length;
 
-        try {
-          while (i--) {
-            subscribers[i](data, event);
-          }
-        } catch (e) {
-          logger.error(e);
+        while (i--) {
+          invokeCallback(subscribers[i], data, event);
         }
       }
     } else {
       subscribers = this.messageHandlers.slice();
       i = subscribers.length;
 
-      try {
-        while (i--) {
-          subscribers[i].handle(event);
-        }
-      } catch (e) {
-        logger.error(e);
+      while (i--) {
+        invokeHandler(subscribers[i], event);
       }
     }
   };
