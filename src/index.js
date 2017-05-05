@@ -3,14 +3,14 @@ import * as LogManager from 'aurelia-logging';
 const logger = LogManager.getLogger('event-aggregator');
 
 class Handler {
-  constructor(messageType, callback) {
-    this.messageType = messageType;
+  constructor(event, callback) {
+    this.event = event;
     this.callback = callback;
   }
 
-  handle(message) {
-    if (message instanceof this.messageType) {
-      this.callback.call(null, message);
+  handle(event, data) {
+    if (event === this.event) {
+      this.callback.call(null, data, event);
     }
   }
 }
@@ -23,9 +23,9 @@ function invokeCallback(callback, data, event) {
   }
 }
 
-function invokeHandler(handler, data) {
+function invokeHandler(handler, event, data) {
   try {
-    handler.handle(data);
+    handler.handle(event, data);
   } catch (e) {
     logger.error(e);
   }
@@ -81,7 +81,7 @@ export class EventAggregator {
       i = subscribers.length;
 
       while (i--) {
-        invokeHandler(subscribers[i], event);
+        invokeHandler(subscribers[i], event, data);
       }
     }
   }
