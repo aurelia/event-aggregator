@@ -1,4 +1,4 @@
 {
   "name": "aurelia-event-aggregator",
-  "main": "dist/aurelia-event-aggregator.d.ts"
+  "main": "dist/amd/aurelia-event-aggregator.d.ts"
 }
