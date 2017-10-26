@@ -91,7 +91,7 @@ export class EventAggregator {
    * @param event The event channel or event data type.
    * @param callback The callback to be invoked when when the specified message is published.
    */
-  public subscribe<T = any>(event: string | Constructor, callback: EventCallback<T>): Subscription {
+  public subscribe<T = any>(event: string | Constructor<T>, callback: EventCallback<T>): Subscription {
     let handler: EventCallback | Handler;
     let subscribers: Array<EventCallback | Handler>;
 
@@ -103,7 +103,7 @@ export class EventAggregator {
       handler = callback;
       subscribers = this.eventLookup[event] || (this.eventLookup[event] = []);
     } else {
-      handler = new Handler(event, callback);
+      handler = new Handler(event as any, callback);
       subscribers = this.messageHandlers;
     }
 
@@ -125,7 +125,7 @@ export class EventAggregator {
    * @param event The event channel or event data type.
    * @param callback The callback to be invoked when when the specified message is published.
    */
-  public subscribeOnce<T = any>(event: string | Constructor, callback: EventCallback<T>): Subscription {
+  public subscribeOnce<T = any>(event: string | Constructor<T>, callback: EventCallback<T>): Subscription {
     const sub = this.subscribe(event, (a, b) => {
       sub.dispose();
       return callback(a, b);
