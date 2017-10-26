@@ -3,7 +3,7 @@ import * as LogManager from 'aurelia-logging';
 const logger = LogManager.getLogger('event-aggregator');
 
 export type Constructor<T = object> = new (...args: any[]) => T;
-export type EventCallback = (data?: any, event?: string) => any;
+export type EventCallback<T = any> = (data: T, event?: string) => any;
 
 export class Handler {
   constructor(public messageType: Constructor, public callback: EventCallback) {}
@@ -91,7 +91,7 @@ export class EventAggregator {
    * @param event The event channel or event data type.
    * @param callback The callback to be invoked when when the specified message is published.
    */
-  public subscribe(event: string | Constructor, callback: EventCallback): Subscription {
+  public subscribe<T = any>(event: string | Constructor, callback: EventCallback<T>): Subscription {
     let handler: EventCallback | Handler;
     let subscribers: Array<EventCallback | Handler>;
 
@@ -125,7 +125,7 @@ export class EventAggregator {
    * @param event The event channel or event data type.
    * @param callback The callback to be invoked when when the specified message is published.
    */
-  public subscribeOnce(event: string | Constructor, callback: EventCallback): Subscription {
+  public subscribeOnce<T = any>(event: string | Constructor, callback: EventCallback<T>): Subscription {
     const sub = this.subscribe(event, (a, b) => {
       sub.dispose();
       return callback(a, b);
