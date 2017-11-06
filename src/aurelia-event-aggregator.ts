@@ -5,7 +5,7 @@ const logger = LogManager.getLogger('event-aggregator');
 export type Constructor<T = object> = new (...args: any[]) => T;
 export type EventCallback<T = any> = (data: T, event?: string) => any;
 
-export class Handler {
+class Handler {
   constructor(public messageType: Constructor, public callback: EventCallback) {}
 
   public handle(message: object) {
@@ -45,13 +45,8 @@ export interface Subscription {
  * Enables loosely coupled publish/subscribe messaging.
  */
 export class EventAggregator {
-  /**
-   * Creates an instance of the EventAggregator class.
-   */
-  constructor(
-    private eventLookup: {[event: string]: EventCallback[]} = {},
-    private messageHandlers: Handler[] = []
-  ) {}
+  private eventLookup: { [event: string]: EventCallback[] } = {};
+  private messageHandlers: Handler[] = [];
 
   /**
    * Publishes a message.
