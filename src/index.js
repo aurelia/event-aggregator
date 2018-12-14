@@ -107,14 +107,11 @@ export class EventAggregator {
       subscribers = this.messageHandlers;
     }
 
-    subscribers.push(handler);
+    let idx = subscribers.push(handler);
 
     return {
       dispose() {
-        let idx = subscribers.indexOf(handler);
-        if (idx !== -1) {
-          subscribers.splice(idx, 1);
-        }
+        subscribers.splice(idx, 1);
       }
     };
   }
