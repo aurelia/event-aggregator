@@ -1,3 +1,8 @@
+<a name="1.0.2"></a>
+## [1.0.2](https://github.com/aurelia/event-aggregator/compare/1.0.1...1.0.2) (2019-01-18)
+
+* Add module field to package.json
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/aurelia/event-aggregator/compare/1.0.0...v1.0.1) (2016-12-03)
 

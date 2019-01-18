@@ -89,7 +89,7 @@ export class EventAggregator {
   /**
   * Subscribes to a message channel or message type.
   * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
+  * @param callback The callback to be invoked when the specified message is published.
   */
   subscribe(event: string | Function, callback: Function): Subscription {
     let handler;
@@ -122,7 +122,7 @@ export class EventAggregator {
   /**
   * Subscribes to a message channel or message type, then disposes the subscription automatically after the first message is received.
   * @param event The event channel or event data type.
-  * @param callback The callback to be invoked when when the specified message is published.
+  * @param callback The callback to be invoked when the specified message is published.
   */
   subscribeOnce(event: string | Function, callback: Function): Subscription {
     let sub = this.subscribe(event, (a, b) => {
