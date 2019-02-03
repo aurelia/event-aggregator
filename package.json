@@ -15,12 +15,20 @@
   "license": "MIT",
   "author": "Rob Eisenberg <rob@bluespire.com> (http://robeisenberg.com/)",
   "main": "dist/commonjs/aurelia-event-aggregator.js",
-  "module": "dist/es2015/aurelia-event-aggregator.js",
+  "module": "dist/native-modules/aurelia-event-aggregator.js",
   "typings": "dist/aurelia-event-aggregator.d.ts",
   "repository": {
     "type": "git",
     "url": "http://github.com/aurelia/event-aggregator"
   },
+  "files": [
+    "dist",
+    "doc",
+    "src",
+    "typings.json",
+    "README.md",
+    "LICENSE"
+  ],
   "jspm": {
     "registry": "npm",
     "jspmPackage": true,
