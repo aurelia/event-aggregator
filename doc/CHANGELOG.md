@@ -1,3 +1,13 @@
+<a name="1.0.3"></a>
+## [1.0.3](https://github.com/aurelia/event-aggregator/compare/1.0.2...1.0.3) (2019-02-03)
+
+
+### Bug Fixes
+
+* **all:** change es2015 back to native-modules ([38c3b31](https://github.com/aurelia/event-aggregator/commit/38c3b31))
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/aurelia/event-aggregator/compare/1.0.1...1.0.2) (2019-01-18)
 
