@@ -21,6 +21,14 @@
     "type": "git",
     "url": "http://github.com/aurelia/event-aggregator"
   },
+  "files": [
+    "dist",
+    "doc",
+    "src",
+    "typings.json",
+    "README.md",
+    "LICENSE"
+  ],
   "jspm": {
     "registry": "npm",
     "jspmPackage": true,
