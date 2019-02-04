@@ -51,8 +51,7 @@
     }
   },
   "dependencies": {
-    "aurelia-logging": "^1.0.0",
-    "jspm": "^0.16.53"
+    "aurelia-logging": "^1.0.0"
   },
   "devDependencies": {
     "aurelia-tools": "^0.2.4",

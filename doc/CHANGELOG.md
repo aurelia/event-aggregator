@@ -1,5 +1,5 @@
 <a name="1.0.3"></a>
-## [1.0.3](https://github.com/aurelia/event-aggregator/compare/1.0.2...1.0.3) (2019-02-03)
+## [1.0.3](https://github.com/aurelia/event-aggregator/compare/1.0.2...1.0.3) (2019-02-04)
 
 
 ### Bug Fixes
