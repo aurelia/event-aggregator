@@ -1,6 +1,6 @@
 {
   "name": "aurelia-event-aggregator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A lightweight pub/sub messaging system for app-wide or per-object loosely coupled events.",
   "keywords": [
     "aurelia",
@@ -36,14 +36,10 @@
   ],
   "jspm": {
     "registry": "npm",
-    "jspmPackage": true,
     "main": "aurelia-event-aggregator",
     "format": "amd",
     "directories": {
       "dist": "dist/amd"
-    },
-    "peerDependencies": {
-      "aurelia-logging": "^1.0.0"
     },
     "dependencies": {
       "aurelia-logging": "^1.0.0"
